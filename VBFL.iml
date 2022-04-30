@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" name="commons-cli-1.3.1" level="project" />
+    <orderEntry type="library" name="commons-lang-2.4" level="project" />
+    <orderEntry type="library" name="google-java-format-1.7" level="project" />
+    <orderEntry type="library" name="log4j-1.2.17" level="project" />
+    <orderEntry type="library" name="org.eclipse.core.contenttype_3.5.0.v20150421-2214" level="project" />
+    <orderEntry type="library" name="org.eclipse.core.jobs_3.7.0.v20150330-2103" level="project" />
+    <orderEntry type="library" name="org.eclipse.core.resources_3.10.1.v20150725-1910" level="project" />
+    <orderEntry type="library" name="org.eclipse.core.runtime_3.11.1.v20150903-1804" level="project" />
+    <orderEntry type="library" name="org.eclipse.equinox.common_3.7.0.v20150402-1709" level="project" />
+    <orderEntry type="library" name="org.eclipse.equinox.preferences_3.5.300.v20150408-1437" level="project" />
+    <orderEntry type="library" name="org.eclipse.jdt.core_3.11.2.v20160128-0629" level="project" />
+    <orderEntry type="library" name="org.eclipse.osgi_3.10.102.v20160118-1700" level="project" />
+    <orderEntry type="library" name="org.eclipse.text_3.5.0" level="project" />
+    <orderEntry type="library" name="weka" level="project" />
+    <orderEntry type="library" name="sootclasses-trunk-jar-with-dependencies-3.0.0" level="project" />
+    <orderEntry type="library" name="sootclasses-trunk-jar-with-dependencies" level="project" />
+  </component>
+</module>

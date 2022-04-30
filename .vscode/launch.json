@@ -1,0 +1,126 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch Runner",
+            "request": "launch",
+            "mainClass": "fl.Runner",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch RunnerForFilter",
+            "request": "launch",
+            "mainClass": "fl.RunnerForFilter",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch GenSuiteTest",
+            "request": "launch",
+            "mainClass": "fl.instr.gen.GenSuiteTest",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch LoadDataFlowAnalysis",
+            "request": "launch",
+            "mainClass": "fl.soot.LoadDataFlowAnalysis",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch VarCounter",
+            "request": "launch",
+            "mainClass": "fl.utils.VarCounter",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch InterGenTree",
+            "request": "launch",
+            "mainClass": "fl.weka.InterGenTree",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch IntraGenTree",
+            "request": "launch",
+            "mainClass": "fl.weka.IntraGenTree",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch RandomTree2",
+            "request": "launch",
+            "mainClass": "fl.weka.RandomTree2",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch SpectrumAnalysis",
+            "request": "launch",
+            "mainClass": "fl.weka.SpectrumAnalysis",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch WithoutGenTree",
+            "request": "launch",
+            "mainClass": "fl.weka.WithoutGenTree",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch Main",
+            "request": "launch",
+            "mainClass": "pda.Main",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch DependencyMain",
+            "request": "launch",
+            "mainClass": "pda.core.dependency.DependencyMain",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch SlicerMain",
+            "request": "launch",
+            "mainClass": "pda.core.slice.SlicerMain",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch VarCounter(1)",
+            "request": "launch",
+            "mainClass": "pda.core.slice.VarCounter",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch Runner(1)",
+            "request": "launch",
+            "mainClass": "pda.core.trace.Runner",
+            "projectName": "VBFL_c32470d9"
+        },
+        {
+            "type": "java",
+            "name": "Launch TraceMain",
+            "request": "launch",
+            "mainClass": "pda.core.trace.TraceMain",
+            "projectName": "VBFL_c32470d9"
+        }
+    ]
+}

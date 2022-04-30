@@ -1,0 +1,24 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="fl-intra_gentree">
+    <output-path>$PROJECT_DIR$/out/artifacts/fl_intra_gentree</output-path>
+    <root id="archive" name="fl-intra_gentree.jar">
+      <element id="module-output" name="VBFL" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/org.eclipse.jdt.core_3.11.2.v20160128-0629.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/org.eclipse.osgi_3.10.102.v20160118-1700.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/org.eclipse.core.jobs_3.7.0.v20150330-2103.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/weka.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/org.eclipse.equinox.preferences_3.5.300.v20150408-1437.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/org.eclipse.core.contenttype_3.5.0.v20150421-2214.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/org.eclipse.equinox.common_3.7.0.v20150402-1709.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-cli-1.3.1.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/google-java-format-1.7.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/org.eclipse.core.resources_3.10.1.v20150725-1910.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/org.eclipse.core.runtime_3.11.1.v20150903-1804.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/sootclasses-trunk-jar-with-dependencies.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/sootclasses-trunk-jar-with-dependencies-3.0.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/commons-lang-2.4.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/org.eclipse.text_3.5.0.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$PROJECT_DIR$/lib/log4j-1.2.17.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>
