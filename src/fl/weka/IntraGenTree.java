@@ -49,78 +49,56 @@ public class IntraGenTree {
     private static DependencyParser dependencyParser;
 
     private static int TREE_MAX_DEPTH = 5;
-    private static boolean VERSION_OLD = false;
 
     public static void main(String[] args) {
-        // args[0] --- /mnt/hgfs/FaultLocalization/collected_values/chart/chart_1/0/std.log
-        // args[1] --- /mnt/hgfs/FaultLocalization/gen_trees/chart/chart_1/0
-        // args[2] --- chart
-        // args[3] --- 1
-        // args[4] --- 0
-        // args[5] --- /mnt/hgfs/FaultLocalization/collected_values/chart/chart_1/instrumented_method_id.txt
-        // args[6] --- /mnt/hgfs/FaultLocalization/EXP/buggyProjects/
-        // args[7] --- /mnt/hgfs/IdeaProjects/ProgramAnalysis/out/artifacts/PDA_jar/info/chart/chart_1
-        // args[8] --- (option) DEPENDENCY_FACTOR
         // log to csv and attrMap
 
-        if(args.length > 9) {
-            JavaLogger.error(_name + "#main Wrong number of arguments for fl-gentree.jar");
-            return;
-        }
-
         SLICING = true;
-        double[] dfactors2 = {0.8};;
-        for(double dfactor : dfactors2) {
-            DEPENDENCY_FACTOR = dfactor;
+        DEPENDENCY_FACTOR = 0.8;
 
-            String[] pros = {"lang"};
-            //String[] pros = Constant.PROJECT_BUG_IDS.keySet().toArray(new String[0]);
+        String collectDir = args[0];
+        String outputDir = args[1];
+        String pro = args[2];
+        String j = args[3];
 
-            for(String pro : pros) {
-                //int[] bugs3 = Constant.PROJECT_BUG_IDS.get(pro);
-                int[] bugs3 = {27};
-                for(int j : bugs3) {
-                    dependencyParser = null;
-                    String values = String.format("",pro,pro,j);
-                    File valuesDir = new File(values);
-                    int ms = 0;
-                    for(File f : valuesDir.listFiles()) {
-                        if(f.isDirectory()) {
-                            ms++;
-                        }
-                    }
-                    for(int k=0; k<ms; k++) {
-                        String log_path = String.format("std.log",pro,pro,j,k);
-                        String output_path = String.format("", DEPENDENCY_FACTOR, pro,pro,j,k);
-                        if (SLICING) {
-                            log_path = String.format("std_slicing.log",pro,pro,j,k);
-                            output_path = String.format("", DEPENDENCY_FACTOR, pro,pro,j,k);
-                        }
-                        File output = new File(output_path);
-                        if(output.exists()) {
-                            //continue;
-                        }
-                        File treesDir = new File(output_path);
-                        if(!treesDir.exists()) {
-                            treesDir.mkdirs();
-                        }
-                        PID = pro;
-                        BID = ""+j;
-                        MID = ""+k;
-                        SRC_BASE = String.format("");
-                        TRACE_DIR = String.format("",pro,pro,j);
-                        LINESCORE_BASE = String.format("",pro,pro,j);
-                        if(pro.equals("lang")||pro.equals("chart")||pro.equals("math")||pro.equals("time")||pro.equals("closure")) {
-                            LINESCORE_BASE = String.format("",pro,pro,j);
-                        }
-                        methodByMID = loadMID(String.format("",pro,pro,j));
-                        parseClazzMethod(String.format("",pro,pro,j));
-
-                        log2tree(log_path, output_path);
-                    }
-                }
+        dependencyParser = null;
+        String values = String.format("%s/%s/%s_%d",collectDir,pro,pro,j);
+        File valuesDir = new File(values);
+        int ms = 0;
+        for(File f : valuesDir.listFiles()) {
+            if(f.isDirectory()) {
+                ms++;
             }
-        }         
+        }
+        for(int k=0; k<ms; k++) {
+            String log_path = String.format("%s/%s/%s_%d/%d/std.log",collectDir,pro,pro,j,k);
+            String output_path = String.format("%s/%s/%s_%d/%d",outputDir,pro,pro,j,k);
+            if (SLICING) {
+                log_path = String.format("%s/%s/%s_%d/%d/std_slicing.log",collectDir,pro,pro,j,k);
+                output_path = String.format("%s/%s/%s_%d/%d",outputDir,pro,pro,j,k);
+            }
+            File output = new File(output_path);
+            if(output.exists()) {
+                //continue;
+            }
+            File treesDir = new File(output_path);
+            if(!treesDir.exists()) {
+                treesDir.mkdirs();
+            }
+            PID = pro;
+            BID = ""+j;
+            MID = ""+k;
+            SRC_BASE = args[4];
+            TRACE_DIR = args[5];
+            LINESCORE_BASE = args[6];
+            //if(pro.equals("lang")||pro.equals("chart")||pro.equals("math")||pro.equals("time")||pro.equals("closure")) {
+            //    LINESCORE_BASE = String.format("",pro,pro,j);
+            //}
+            methodByMID = loadMID(String.format("%s/instrumented_method_id.txt",values));
+            parseClazzMethod(String.format("%s/instrumented_method_id.txt",values));
+
+            log2tree(log_path, output_path);
+        }
     }
 
     private static Map<String, String> loadMID(String format) {
