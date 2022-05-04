@@ -47,7 +47,6 @@ public class WithoutGenTree {
         for(String pro : pros) {
             int[] bugs3 = {32};
             for(int j : bugs3) {
-                dependencyParser = null;
                 String values = String.format("",pro,pro,j);
                 File valuesDir = new File(values);
                 int ms = 0;
@@ -184,10 +183,8 @@ public class WithoutGenTree {
             DependencyGraphVertex vertex = (DependencyGraphVertex) entry.getValue();
             String loc = "";
             if(vertex instanceof VariableVertex) {
-                //loc = ((VariableVertex) vertex).getLineNo() + "/" + ((VariableVertex) vertex).getColNo();
                 loc = "" + ((VariableVertex) vertex).getLineNo();
             } else if(vertex instanceof TempVertex) {
-                //loc = ((TempVertex) vertex).getLineNo() + "/" + ((TempVertex) vertex).getColNo() + "/" + ((TempVertex) vertex).getSize();
                 loc = "" + ((TempVertex) vertex).getLineNo();
             } else if(vertex instanceof MethodInvocationVertex) {
                 loc = "" + ((MethodInvocationVertex) vertex).getLineNo();

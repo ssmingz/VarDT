@@ -2,7 +2,7 @@
  * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
- * Written by Jiajun Jiang<jiangjiajun@tju.edu.cn>.
+ * Written by .
  */
 
 package pda.core.analyze;
@@ -21,7 +21,7 @@ import java.util.Stack;
 import java.util.regex.Pattern;
 
 /**
- * @author: Jiajun
+ * @author: 
  * @date: 2021/11/12
  */
 public class Analyzer {

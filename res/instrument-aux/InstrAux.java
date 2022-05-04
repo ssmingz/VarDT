@@ -14,7 +14,6 @@ public class InstrAux {
     public static String BID = "";
     public static List failedTest = new ArrayList();
 
-    //private static final String FAIL_TESTNAME_PATH = "/mnt/hgfs/FaultLocalization/failed_tests_afterTP";
     public static String FAIL_TESTNAME_PATH = "";
 
     public static void setTestName(String ftest_path, String testname, String pid, String bid, Logger logger) {
@@ -68,7 +67,6 @@ public class InstrAux {
         Iterator itr=target.iterator();
         int index=0;
         updateRecorder(name + "{PRED}.size-" + lineNo + "/" + colNo, ""+target.size());
-        //logger.debug(name + ".size-" + lineNo+ ":"+ target.size());
         if (target.size() > 10 && itr.hasNext()) {
             Object obj=itr.next();
             checkNull(obj, name+"{PRED}["+index+"]", lineNo, colNo); // check null
@@ -102,7 +100,6 @@ public class InstrAux {
         Iterator itr=target.keySet().iterator();
         int index=0;
         updateRecorder(name + "{PRED}.size-" + lineNo + "/" + colNo, ""+target.size());
-        //logger.debug(name + ".size-" + lineNo+ ":"+ target.size());
         if (target.size() > 10 && itr.hasNext()) {
             Object obj=itr.next();
             checkNull(obj, name+"{PRED}.keys["+index+"]", lineNo,colNo);
@@ -583,7 +580,6 @@ public class InstrAux {
         String iden = name + "-" + lineNo + "/" + colNo;
         String content = "" + o;
         updateRecorder(iden, content);
-        //logger.debug(name + "-" + lineNo+ ":"+ o);
         // record type
         updateRecorder(name + "{PRED}.TYPE-" + lineNo + "/" + colNo, getType(o));
         return o;
@@ -592,7 +588,6 @@ public class InstrAux {
         String iden = name + "{PRED}.ASCII-" + lineNo + "/" + colNo;
         String content = "" + ((int)o);
         updateRecorder(iden, content);
-        //logger.debug(name + ".ASCII-" + lineNo+ ":"+ ((int)o));
         // record type
         updateRecorder(name + "{PRED}.TYPE-" + lineNo + "/" + colNo, getType(o));
         return o;
@@ -601,7 +596,6 @@ public class InstrAux {
         String iden = name + "-" + lineNo + "/" + colNo;
         String content = "" + o;
         updateRecorder(iden, content);
-        //logger.debug(name + "-" + lineNo+ ":"+ o);
         // record type
         updateRecorder(name + "{PRED}.TYPE-" + lineNo + "/" + colNo, getType(o));
         return o;
@@ -610,7 +604,6 @@ public class InstrAux {
         String iden = name + "-" + lineNo + "/" + colNo;
         String content = "" + o;
         updateRecorder(iden, content);
-        //logger.debug(name + "-" + lineNo+ ":"+ o);
         // record type
         updateRecorder(name + "{PRED}.TYPE-" + lineNo + "/" + colNo, getType(o));
         return o;
@@ -619,7 +612,6 @@ public class InstrAux {
         String iden = name + "-" + lineNo + "/" + colNo;
         String content = "" + o;
         updateRecorder(iden, content);
-        //logger.debug(name + "-" + lineNo+ ":"+ o);
         // record type
         updateRecorder(name + "{PRED}.TYPE-" + lineNo + "/" + colNo, getType(o));
         return o;
@@ -628,7 +620,6 @@ public class InstrAux {
         String iden = name + "-" + lineNo + "/" + colNo;
         String content = "" + o;
         updateRecorder(iden, content);
-        //logger.debug(name + "-" + lineNo+ ":"+ o);
         // record type
         updateRecorder(name + "{PRED}.TYPE-" + lineNo + "/" + colNo, getType(o));
         return o;
@@ -637,7 +628,6 @@ public class InstrAux {
         String iden = name + "-" + lineNo + "/" + colNo;
         String content = "" + o;
         updateRecorder(iden, content);
-        //logger.debug(name + "-" + lineNo+ ":"+ o);
         // record type
         updateRecorder(name + "{PRED}.TYPE-" + lineNo + "/" + colNo, getType(o));
         return o;

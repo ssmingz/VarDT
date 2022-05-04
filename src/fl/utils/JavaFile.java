@@ -105,17 +105,6 @@ public class JavaFile {
         }
         return result;
         // TODO: consider constructor, e.g. org.apache.commons.lang3.math.NumberUtils.<init>
-        // <init>
-        //String methodName = fullName.substring(fullName.lastIndexOf(".")+1);
-        // org.apache.commons.lang3.math.NumberUtils
-        //String fullClass = fullName.substring(0, fullName.lastIndexOf("."));
-        // NumberUtils
-        //String className = fullClass.substring(fullClass.lastIndexOf(".")+1);
-        //if(methodName.equals(className)) {
-            // since constructors are named as <init> in slices
-        //    nameWithTypes = nameWithTypes.replace(methodName+"(", "<init>(");
-        //}
-        //return nameWithTypes;
     }
 
     /**

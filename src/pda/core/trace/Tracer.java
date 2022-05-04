@@ -2,7 +2,7 @@
  * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
- * Written by Jiajun Jiang<jiangjiajun@tju.edu.cn>.
+ * Written by .
  */
 
 package pda.core.trace;
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author: Jiajun
+ * @author: 
  * @date: 2021/11/16
  */
 public class Tracer {

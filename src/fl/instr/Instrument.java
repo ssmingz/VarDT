@@ -6,15 +6,11 @@ import fl.instr.gen.GenWriter;
 import fl.instr.visitor.MethodStmtCountVisitor;
 import fl.instr.visitor.SliceVisitor;
 import fl.instr.visitor.TestMethodVisitor;
-import fl.soot.DataFlowAnalysis;
 import fl.utils.*;
 import org.eclipse.jdt.core.dom.*;
-import weka.gui.simplecli.Java;
 
 import java.io.*;
-import java.lang.reflect.Method;
 import java.util.*;
-import java.util.regex.Matcher;
 
 /**
  * @author
@@ -99,58 +95,6 @@ public class Instrument {
         GenStatement.generate(cu, stmtList, Constant.PROJECT_PATH);
     }
 
-    private void applyDataFlowAnalysis(List<DataFlowParaPack> dataFlowParaPackList) {
-        for(DataFlowParaPack dfpp : dataFlowParaPackList) {
-            curBuggyMethod = dfpp._curBuggyMethod;
-            curBuggyMethodWithType = dfpp._curBuggyMethodWithType;
-            // get dir.bin.classes path
-            String classpath = JavaFile.getBinClasses(dfpp._projectPath);
-            //String classpath = SearchFile.searchDirByName(new File(dfpp._projectPath), "classes")[0].getAbsolutePath();
-            String processdir = classpath;
-            String className = curBuggyMethod.substring(0, curBuggyMethod.lastIndexOf("."));
-            String methodName = curBuggyMethod.substring(curBuggyMethod.lastIndexOf(".")+1);
-            String paraStr = curBuggyMethodWithType.substring(curBuggyMethodWithType.indexOf("(")+1, curBuggyMethodWithType.indexOf(")"));
-            List<String> paraTypes = Arrays.asList(paraStr.split(","));
-            dfpp.initOtherInfo(classpath, processdir, className, methodName, paraTypes);
-            // save Object
-            Constant.SOOT_ANALYSIS_COUNTER++;
-            String name = "dataFlowParaPack" + Constant.SOOT_ANALYSIS_COUNTER;
-            dfpp._id = String.valueOf(Constant.SOOT_ANALYSIS_COUNTER);
-            JavaFile.writeObjectToFile(dfpp, dfpp._projectPath + "/sootOutput/" + name + ".dat");
-        }
-        // save dataFlowParaPackList
-        //DataFlowAnalysis analysis = new DataFlowAnalysis(dataFlowParaPackList);
-        //analysis.doAnalysis();
-        // get result
-        //Constant.SOOT_ANALYSIS_COUNTER++;
-        //String name1 = "defUseByLine" + Constant.SOOT_ANALYSIS_COUNTER;
-        //String name2 = "aggreEquiLocals" + Constant.SOOT_ANALYSIS_COUNTER;
-        //JavaFile.writeObjectToFile(analysis._defUse, projectPath + "/sootOutput/" + name1 + ".dat");
-        //JavaFile.writeObjectToFile(analysis._aggreEquiLocals, projectPath + "/sootOutput/" + name2 + ".dat");
-    }
-
-    private void runProcess(String command) throws IOException, InterruptedException {
-        Process pro = Runtime.getRuntime().exec(command);
-        pro.waitFor();
-    }
-/*
-    private void applyDataFlowAnalysis(String projectPath, CompilationUnit cu) {
-        String classpath = SearchFile.searchDirByName(new File(projectPath), "classes")[0].getAbsolutePath();
-        String processdir = classpath;
-        String className = curBuggyMethod.substring(0, curBuggyMethod.lastIndexOf("."));
-        String methodName = curBuggyMethod.substring(curBuggyMethod.lastIndexOf(".")+1);
-        String paraStr = curBuggyMethodWithType.substring(curBuggyMethodWithType.indexOf("(")+1, curBuggyMethodWithType.indexOf(")"));
-        List<String> paraTypes = Arrays.asList(paraStr.split(","));
-        DataFlowAnalysis analysis = new DataFlowAnalysis(classpath, processdir, className, methodName, paraTypes, cu);
-        analysis.doAnalysis();
-        // get result
-        Constant.SOOT_ANALYSIS_COUNTER++;
-        String name1 = "defUseByLine" + Constant.SOOT_ANALYSIS_COUNTER;
-        String name2 = "aggreEquiLocals" + Constant.SOOT_ANALYSIS_COUNTER;
-        JavaFile.writeObjectToFile(analysis._defUse, projectPath + "/sootOutput/" + name1 + ".dat");
-        JavaFile.writeObjectToFile(analysis._aggreEquiLocals, projectPath + "/sootOutput/" + name2 + ".dat");
-    }
-*/
     /**
      * copy InstrAux.java to SRC_PATH/auxiliary/InstrAux.java
      * @param targetPath
@@ -159,7 +103,6 @@ public class Instrument {
         String srcPath = JavaFile.getSrcClasses(Constant.PROJECT_PATH);
         String jarPath = Runner.class.getProtectionDomain().getCodeSource().getLocation().getPath();
         String fromPath = jarPath.substring(0, jarPath.lastIndexOf("/")) + "/res/instrument-aux/InstrAux.java";
-        //String toPath = targetPath.substring(0, targetPath.lastIndexOf(File.separator)) + "/InstrAux.java";
         File auxdir = new File(srcPath+"/auxiliary");
         if(!auxdir.exists() || !auxdir.isDirectory()) {
             auxdir.mkdir();
@@ -168,11 +111,6 @@ public class Instrument {
         File auxClass = new File(fromPath);
         File auxClass_copy = new File(toPath);
         JavaFile.copyFile(auxClass_copy, auxClass);
-        // add package declaration to InstrAux.java
-        //String source = JavaFile.readFileToString(auxClass_copy);
-        //CompilationUnit cu = JavaFile.genASTFromSource(source, targetPath);
-        //cu.setPackage((PackageDeclaration) ASTNode.copySubtree(cu.getAST(), pdToAdd));
-        //JavaFile.writeStringToFile(cu.toString(), auxClass_copy);
     }
 
     /**
@@ -285,20 +223,6 @@ public class Instrument {
         JavaLogger.info("instrument test method at " + testFile.getAbsolutePath());
         String source = JavaFile.readFileToString(testFile);
         CompilationUnit cu = JavaFile.genASTFromSource(source, testFile.getAbsolutePath());
-
-        // copy InstrAux.java
-        //boolean cuAddImportInstrAux = false;
-        //if(Constant.PACKAGE_OF_INSTRAUX_TEST == null) {
-        //    copyAuxClass(testFile.getAbsolutePath(), cu.getPackage());
-        //    Constant.PACKAGE_OF_INSTRAUX_TEST = cu.getPackage().getName().getFullyQualifiedName() + ".InstrAux";
-        //} else {
-        //    cuAddImportInstrAux = true;
-        //}
-        //if(cuAddImportInstrAux) {
-        //    ImportDeclaration imp = _ast.newImportDeclaration();
-        //    imp.setName(_ast.newName(Constant.PACKAGE_OF_INSTRAUX_TEST));
-        //    cu.imports().add(ASTNode.copySubtree(cu.getAST(), imp));
-        //}
 
         // add logger init
         // 1. import
@@ -494,7 +418,6 @@ public class Instrument {
             // get target ast
             JavaLogger.info("parsing AST ...");
             String source = JavaFile.readFileToString(targetFile);
-            //CompilationUnit cu = JavaFile.genASTFromSource(source, targetPath);
             CompilationUnit cu = pda.common.utils.JavaFile.genASTFromSource(source, targetPath, Constant.PROJECT_PATH);
 
             // add import

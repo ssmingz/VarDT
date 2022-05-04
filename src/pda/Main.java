@@ -2,14 +2,14 @@
  * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
- * Written by Jiajun Jiang<jiangjiajun@tju.edu.cn>.
+ * Written by .
  */
 
 package pda;
 
 
 /**
- * @author: Jiajun
+ * @author: 
  * @date: 2021/11/2
  */
 public class Main {

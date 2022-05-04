@@ -1,0 +1,5 @@
+bug_id;file#var_list
+25:/src/main/java/org/apache/commons/collections4/IteratorUtils#comparator-[602,605];(new CollatingIterator<E>(comparator,iterator1,iterator2))-[605];comparator-[624,626];(new CollatingIterator<E>(comparator,iterators))-[626];comparator-[646,648];(new CollatingIterator<E>(comparator,iterators))-[648]
+26:/src/main/java/org/apache/commons/collections4/keyvalue/MultiKey#
+27:/src/main/java/org/apache/commons/collections4/map/MultiValueMap#
+28:/src/main/java/org/apache/commons/collections4/trie/AbstractPatriciaTrie#

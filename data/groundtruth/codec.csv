@@ -1,0 +1,19 @@
+bug_id;file#var_list
+1:/src/java/org/apache/commons/codec/language/Caverphone#txt-[59,62]:/src/java/org/apache/commons/codec/language/Metaphone#(txt.toUpperCase())-[88]:/src/java/org/apache/commons/codec/language/SoundexUtils#(str.toUpperCase())-[53]
+2:/src/java/org/apache/commons/codec/binary/Base64#(lineLength>0)-[446];lineLength-[446,465];pos-[442,447];pos-[439];pos-[432];pos-[428]
+3:/src/java/org/apache/commons/codec/language/DoubleMetaphone#(contains(value,index+1,4,"IER"))-[455]
+4:/src/java/org/apache/commons/codec/binary/Base64#this.encodeSize-[]
+5:/src/java/org/apache/commons/codec/binary/Base64#buffer-[558,596];pos-[591,594];decodeSize-[558]
+6:/src/java/org/apache/commons/codec/binary/Base64InputStream#(base64.readResults(b,offset,len))-[178]
+7:/src/java/org/apache/commons/codec/binary/Base64#(StringUtils.newStringUtf8(encodeBase64(binaryData,true)))-[670]
+8:/src/java/org/apache/commons/codec/binary/Base64InputStream#(c>0&&b.length==len)-[169];c-[168,175];b.length-[138,178];len-[138,178];base64-[170]
+9:/src/java/org/apache/commons/codec/binary/Base64#len-[827,829];isChunked-[822,835]
+10:/src/java/org/apache/commons/codec/language/Caverphone#txt-[76,79]
+11:/src/main/java/org/apache/commons/codec/net/QuotedPrintableCodec#bytes-[219,230];u-[229,231];b-[225,237];(bytes[++i])-[229]
+12:
+13:/src/main/java/org/apache/commons/codec/language/DoubleMetaphone#(doubleMetaphone(value1,alternate).equals(doubleMetaphone(value2,alternate)))-[244]
+14:/src/main/java/org/apache/commons/codec/language/bm/PhoneticEngine#phonemes-[338,364];(new PhonemeBuilder(phonemes))-[364]
+15:/src/main/java/org/apache/commons/codec/language/Soundex#('H'==hwChar||'W'==hwChar)-[189];('H'==hwChar)-[189];('W'==hwChar)-[189];hwChar-[188,189];(firstCode==mappedChar||'H'==preHWChar||'W'==preHWChar)-[192];firstCode-[191,192];mappedChar-[185,197];preHWChar-[190,192];(firstCode==mappedChar)-[192];('H'==preHWChar)-[192];('W'==preHWChar)-[192]
+16:
+17:/src/main/java/org/apache/commons/codec/binary/StringUtils#(new String(bytes,Charsets.ISO_8859_1))-[339]
+18:/src/main/java/org/apache/commons/codec/binary/StringUtils#(CharSequenceUtils.regionMatches(cs1,false,0,cs2,0,Math.max(cs1.length(),cs2.length())))-[81];cs1.length-[71,81];cs2.length-[71,81]

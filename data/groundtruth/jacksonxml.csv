@@ -1,0 +1,7 @@
+bug_id;file#var_list
+1:/src/main/java/com/fasterxml/jackson/dataformat/xml/deser/FromXmlParser#_parsingContext-[454,516];_currToken-[550,553]
+2:/src/main/java/com/fasterxml/jackson/dataformat/xml/deser/XmlTokenStream#(_xmlReader.getEventType()==XMLStreamReader.START_ELEMENT)-[325];_xmlReader-[317,325];(_initStartElement())-[326];(_handleEndElement())-[341]
+3:/src/main/java/com/fasterxml/jackson/dataformat/xml/deser/FromXmlParser#_currText-[669];token-[617,643]
+4:
+5:/src/main/java/com/fasterxml/jackson/dataformat/xml/ser/XmlSerializerProvider#_rootNameLookup-[59]
+6:

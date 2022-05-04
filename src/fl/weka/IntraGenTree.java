@@ -266,34 +266,17 @@ public class IntraGenTree {
         // compute score
         Set<DependencyGraphVertex> checked = new HashSet<>();
         for(DependencyGraphVertex vertex : vertexInRange) {
-            //if (checked.contains(vertex)) {
-            //    continue;
-            //}
             double score = computeScoreByEdge(equisByVertex, vertex);
-            //if (equisByVertex.containsKey(vertex)) {
-            //    for (int i=1; i<=equisByVertex.get(vertex).size(); i++) {
-            //        score *= DEPENDENCY_FACTOR;
-            //    }
-            //}
-            //checked.add(vertex);
             scoreByVariable.put(vertex.getVertexId(), score);
-            //if(equisByVertex.containsKey(vertex)) {
-            //    for(DependencyGraphVertex equi : equisByVertex.get(vertex)) {
-            //        checked.add(equi);
-            //        scoreByVariable.put(equi.getVertexId(), score);
-            //    }
-            //}
         }
         for(DependencyGraphVertex vertex : equisByVertex.keySet()) {
             double newScore = scoreByVariable.get(vertex.getVertexId());
             for(DependencyGraphVertex equi : equisByVertex.get(vertex)) {
-                //newScore *= scoreByVariable.get(equi.getVertexId());
                 double otherscore = scoreByVariable.get(equi.getVertexId());
-                if (otherscore<newScore) {
+                if (otherscore < newScore) {
                     scoreByVariable.replace(vertex.getVertexId(), scoreByVariable.get(vertex.getVertexId()), newScore);
                 }
             }
-            //scoreByVariable.replace(vertex.getVertexId(), scoreByVariable.get(vertex.getVertexId()), newScore);
         }
 
         // csv to tree

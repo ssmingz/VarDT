@@ -3,18 +3,12 @@ package fl.instr;
 import fl.Runner;
 import fl.instr.gen.GenStatement;
 import fl.instr.gen.GenWriter;
-import fl.instr.visitor.MethodStmtCountVisitor;
-import fl.instr.visitor.SliceVisitor;
 import fl.instr.visitor.TestMethodVisitor;
-import fl.soot.DataFlowAnalysis;
 import fl.utils.*;
 import org.eclipse.jdt.core.dom.*;
-import weka.gui.simplecli.Java;
 
 import java.io.*;
-import java.lang.reflect.Method;
 import java.util.*;
-import java.util.regex.Matcher;
 
 /**
  * Instrument to filter bugs by test number condition : N(PASS)>0, N(FAIL)>0, N(PASS+FAIL)>2

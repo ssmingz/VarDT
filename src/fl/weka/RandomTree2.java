@@ -29,9 +29,6 @@ import weka.core.WeightedInstancesHandler;
 import weka.core.Capabilities.Capability;
 import weka.gui.ProgrammaticProperty;
 
-import fl.weka.gentree.*;
-
-
 public class RandomTree2 extends AbstractClassifier implements OptionHandler, WeightedInstancesHandler, Randomizable, Drawable, PartitionGenerator {
     private static final long serialVersionUID = -9051119597407396024L;
     protected RandomTree2.Tree m_Tree = null;
@@ -51,13 +48,7 @@ public class RandomTree2 extends AbstractClassifier implements OptionHandler, We
     protected Map<String, Double> _attrScoreByName = null;
     protected LinkedHashMap<String, String> _attrNameMap = null;
     protected Map<String, Double> _reorderedAttrs = new LinkedHashMap<>();
-    protected Map<String, double[]> _tempTable4Reordering = new LinkedHashMap<>();
-    protected List<TreeNode> _treeNodes = new ArrayList<>();
-    protected int _nodeCount = 0;
-    protected int _levelCount = 0;
     protected int _testScale = 1;
-
-    protected double _alphaValue = 0.8;
 
     public RandomTree2() {
     }

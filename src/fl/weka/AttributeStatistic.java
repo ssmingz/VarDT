@@ -47,14 +47,10 @@ public class AttributeStatistic {
         // init
         _score = 1.0D;
 
-        //_score = _gainRatio;
-        //_score = _isCorrelated * (0.8 * _gainRatio + 0.2 * _correlation);
         if(!Double.isNaN(_gainRatio) && !Double.isNaN(_correlation)) {
             _score = (0.8 * _gainRatio + 0.2 * _correlation);
         } else {
             _score = Double.MIN_VALUE;
         }
-        // factor of considering equivalence (just like _isCorrelated): 0.001
-        // factor of considering components: 0.001
     }
 }
