@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b194e1ac-508a-40bd-a217-bebd3c38551e" name="Changes" comment="adjust folder structure" />
+    <list default="true" id="b194e1ac-508a-40bd-a217-bebd3c38551e" name="Changes" comment="add some intermediate results" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -78,7 +78,21 @@
       <option name="project" value="LOCAL" />
       <updated>1661757222666</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="add running scripts">
+      <created>1661757367917</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1661757367917</updated>
+    </task>
+    <task id="LOCAL-00007" summary="add some intermediate results">
+      <created>1661757572889</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1661757572889</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -97,6 +111,8 @@
     <MESSAGE value="add source code files" />
     <MESSAGE value="add some running-essential files" />
     <MESSAGE value="adjust folder structure" />
-    <option name="LAST_COMMIT_MESSAGE" value="adjust folder structure" />
+    <MESSAGE value="add running scripts" />
+    <MESSAGE value="add some intermediate results" />
+    <option name="LAST_COMMIT_MESSAGE" value="add some intermediate results" />
   </component>
 </project>

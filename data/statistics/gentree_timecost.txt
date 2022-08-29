@@ -1,0 +1,15 @@
+chart:355 ms
+cli:3478 ms
+codec:567 ms
+compress:274 ms
+csv:341 ms
+gson:709 ms
+jacksoncore:4469 ms
+jacksondatabind:6866 ms
+jacksonxml:1460 ms
+jsoup:3944 ms
+jxpath:3344 ms
+lang:294 ms
+math:534 ms
+mockito:1250 ms
+time:1228 ms

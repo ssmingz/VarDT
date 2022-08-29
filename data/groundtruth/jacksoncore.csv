@@ -1,0 +1,29 @@
+bug_id;file#var_list
+1:/src/main/java/com/fasterxml/jackson/core/io/NumberInput#(new BigDecimal(numStr))-[295];(new BigDecimal(buffer,offset,len))-[305];numStr-[293,295]:/src/main/java/com/fasterxml/jackson/core/util/TextBuffer#(_inputStart>=0)-[390];(_segmentSize==0)-[394];_inputBuffer-[391];_currentSegment-[395]
+2:/src/main/java/com/fasterxml/jackson/core/json/ReaderBasedJsonParser#_parsingContext-[];/src/main/java/com/fasterxml/jackson/core/json/UTF8StreamJsonParser#(i<32)-[2575];i-[2575,2578]
+3:/src/main/java/com/fasterxml/jackson/core/json/UTF8StreamJsonParser#_currInputRowStart-[];_currInputProcessed-[]
+4:/src/main/java/com/fasterxml/jackson/core/util/TextBuffer#newLen-[586,587]
+5:/src/main/java/com/fasterxml/jackson/core/JsonPointer#i-[192,193];c-[193,194]
+6:/src/main/java/com/fasterxml/jackson/core/JsonPointer#len-[186,199];c-[194,195]
+7:/src/main/java/com/fasterxml/jackson/core/json/JsonWriteContext#_gotName-[169]:/src/main/java/com/fasterxml/jackson/core/json/UTF8JsonGenerator#status-[964,997]
+8:/src/main/java/com/fasterxml/jackson/core/util/TextBuffer#(!_hasSegments)-[307];_hasSegments-[307];_currentSegment-[307];
+9:/src/main/java/com/fasterxml/jackson/core/base/ParserMinimalBase#_currToken-[389];_currToken-[397,400];(getValueAsString(null))-[392];(getText())-[403]:/src/main/java/com/fasterxml/jackson/core/json/ReaderBasedJsonParser#_currToken-[246];_currToken[259];(super.getValueAsString(null))-[253];(super.getValueAsString(defValue))-[266]:/src/main/java/com/fasterxml/jackson/core/json/UTF8StreamJsonParser#_currToken-[298];(super.getValueAsString(null))-[305];_currToken-[312];(super.getValueAsString(defValue))-[319]
+10:/src/main/java/com/fasterxml/jackson/core/sym/ByteQuadsCanonicalizer#(_spilloverEnd>=hashArea.length)-[925];_spilloverEnd-[915,925];hash-[984,985]
+11:/src/main/java/com/fasterxml/jackson/core/sym/ByteQuadsCanonicalizer#_needRehash-[883]
+12:/src/main/java/com/fasterxml/jackson/core/json/ReaderBasedJsonParser#_tokenInputRow-[647,653];_tokenInputCol-[647,653];_currToken-[2668,2671];(new JsonLocation(src,-1L,getTokenCharacterOffset(),getTokenLineNr(),getTokenColumnNr()))-[2671]:/src/main/java/com/fasterxml/jackson/core/json/UTF8StreamJsonParser#(new JsonLocation(src,getTokenCharacterOffset(),-1L,getTokenLineNr(),getTokenColumnNr()))-[3621]
+13:/src/main/java/com/fasterxml/jackson/core/json/JsonGeneratorImpl#
+14:/src/main/java/com/fasterxml/jackson/core/io/IOContext#(toRelease.length<=src.length)-[274];toRelease-[272,274];(toRelease.length<=src.length)-[279];toRelease-[277,279]
+15:/src/main/java/com/fasterxml/jackson/core/filter/FilteringParserDelegate#_allowMultipleMatches-[];_currToken-[];_exposedContext-[];_headContext-[];_itemFilter-[]
+16:/src/main/java/com/fasterxml/jackson/core/util/JsonParserSequence#_suppressNextToken-[];delegate-[106,109];_suppressNextToken-[106,112];t-[109,110];(t!=null)-[110]
+17:/src/main/java/com/fasterxml/jackson/core/json/UTF8JsonGenerator#buf-[525,536];len-[523];len-[534,540];len2-[534,540]
+18:/src/main/java/com/fasterxml/jackson/core/base/GeneratorBase#(value.toString())-[435]:/src/main/java/com/fasterxml/jackson/core/json/WriterBasedJsonGenerator#(_cfgNumbersAsStrings)-[686];(isEnabled(Feature.WRITE_BIGDECIMAL_AS_PLAIN))-[689];value-[687,690]
+19:/src/main/java/com/fasterxml/jackson/core/json/ReaderBasedJsonParser#outPtr-[1418];outBuf-[1418]:/src/main/java/com/fasterxml/jackson/core/json/UTF8StreamJsonParser#outPtr-[1544];outBuf-[1544]
+20:/src/main/java/com/fasterxml/jackson/core/JsonGenerator#object-[1328]
+21:/src/main/java/com/fasterxml/jackson/core/filter/FilteringParserDelegate#_includePath-[]
+22:/src/main/java/com/fasterxml/jackson/core/filter/FilteringParserDelegate#(_includePath)-[417];(_includePath)-[575];(f==TokenFilter.INCLUDE_ALL)-[717];_allowMultipleMatches-[237];(f==TokenFilter.INCLUDE_ALL)-[438]
+23:/src/main/java/com/fasterxml/jackson/core/util/DefaultPrettyPrinter#
+24:/src/main/java/com/fasterxml/jackson/core/base/ParserBase#expType-[867,870]
+25:/src/main/java/com/fasterxml/jackson/core/json/ReaderBasedJsonParser#(i<=maxCode)-[1963];i-[1962,1964]
+26:/src/main/java/com/fasterxml/jackson/core/json/async/NonBlockingJsonParser#_currBufferStart-[]
+
+

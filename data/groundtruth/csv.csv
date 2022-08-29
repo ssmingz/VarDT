@@ -1,0 +1,17 @@
+bug_id;file#var_list
+1:/src/main/java/org/apache/commons/csv/ExtendedBufferedReader#(current=='\n')-[58];current-[57,61]
+2:/src/main/java/org/apache/commons/csv/CSVRecord#index-[84,85];values.length-[85]
+3:/src/main/java/org/apache/commons/csv/Lexer#c-[111]
+4:/src/main/java/org/apache/commons/csv/CSVParser#this.headerMap-[288];(new LinkedHashMap<String,Integer>(this.headerMap))-[288]
+5:/src/main/java/org/apache/commons/csv/CSVPrinter#recordSeparator-[324,325]
+6:/src/main/java/org/apache/commons/csv/CSVRecord#col-[181,182];values.length-[182]
+7:
+8:/src/main/java/org/apache/commons/csv/CSVFormat#(header!=null)-[665];header-[665,669];(set.size()!=header.length)-[668];header.length-[666,668]
+9:/src/main/java/org/apache/commons/csv/CSVRecord#mapping-[180]
+10:/src/main/java/org/apache/commons/csv/CSVPrinter#format-[61,67]
+11:/src/main/java/org/apache/commons/csv/CSVParser#emptyHeader-[384,385];header-[382,389]
+12:
+13:/src/main/java/org/apache/commons/csv/CSVPrinter#object-[134,141];(format.isQuoteCharacterSet())-[139]
+14:/src/main/java/org/apache/commons/csv/CSVFormat#(newRecord&&(c<'0'||c>'9'&&c<'A'||c>'Z'&&c<'a'||c>'z'))-[1039];(c<'0'||c>'9'&&c<'A'||c>'Z'&&c<'a'||c>'z')-[1039];c-[1036,1041]
+15:/src/main/java/org/apache/commons/csv/CSVFormat#(newRecord&&(c<0x20||c>0x21&&c<0x23||c>0x2B&&c<0x2D||c>0x7E))-[1189];newRecord-[1151,1189];(c<0x20||c>0x21&&c<0x23||c>0x2B&&c<0x2D||c>0x7E)-[1189];c-[1187,1191]
+16:/src/main/java/org/apache/commons/csv/CSVParser#(new Iterator<CSVRecord>(){})-[523]

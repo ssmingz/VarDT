@@ -1,0 +1,17 @@
+﻿Project,Reduced percentage by slicing,Ratio of the targeting variables to the searching space,Time cost of tree generation (ms)
+Compress,33.93%,4.04%,274
+Gson,37.35%,4.54%,709
+Codec,37.18%,2.13%,567
+Csv,18.61%,1.98%,341
+Lang,18.62%,5.11%,294
+JXml,42.86%,1.94%,1460
+Chart,24.13%,4.87%,355
+JCore,38.96%,4.53%,4469
+Jsoup,41.99%,3.61%,3944
+JxPath,27.17%,2.83%,3344
+Math,42.19%,6.57%,534
+JDatabind,39.01%,2.71%,6866
+Time,18.45%,4.48%,1228
+Cli,27.33%,3.93%,3478
+Mockito,31.06%,8.08%,1250
+Total,31.92%,4.09%,1941 

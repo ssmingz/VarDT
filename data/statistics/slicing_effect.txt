@@ -1,0 +1,15 @@
+chart:0.2413
+cli:0.2733
+codec:0.3718
+compress:0.3393
+csv:0.1861
+gson:0.3735
+jacksoncore:0.3896
+jacksondatabind:0.3901
+jacksonxml:0.4286
+jsoup:0.4199
+jxpath:0.2717
+lang:0.1862
+math:0.4219
+mockito:0.3106
+time:0.1845
