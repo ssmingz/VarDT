@@ -4,7 +4,7 @@ This is the codebase of the bug detector VARDT.
 
 ## Usage
 
-You can run VARDT through the docker image [Docker link](https://hub.docker.com/repository/docker/anonymous0901/vardt) directly. All environments needed have been set up in the docker. Here is an example. Results are generated to `/home/results/`.
+You can run VARDT through the [docker image](https://hub.docker.com/repository/docker/anonymous0901/vardt) directly. All environments needed have been set up in the docker. Here is an example. Results are generated to `/home/results/`.
 
 ```shell
 $> bash
@@ -12,23 +12,17 @@ $> cd /home
 $> python3 script.py Lang 28
 ```
 
-### Configuration
-
-- Java 1.8
-- Python 3.6
-- Git 2.17.1
-- Maven 3.3.9
-- Ant 1.9.16
-
 ### Repository content
 
-* `script.py` is the script for running the pipeline.
-* `code/` contains the source code and some scripts used to get the intermediate results.
-* `docs/` contains the experiment results and some statistic figures and tables.
+* `src/` contains the source code.
+* `res/` and `resources` contain some essential files for running.
+
+In `data/`,
+* `final_ranks/` contains the experiment results of final variable rankings.
 * `groundtruth/` is the groudtruth we collected to check the results.
-* `tracing/` is the root base for collecting the trace.
-* `purification/` is the root base for test purification.
-* Other folders are used for intermediate results.
+* `results/` contains the experiment results of generated trees.
+* `statistics/` contains some statistic figures and tables.
+* Other zip files are some intermediate results.
 
 ### Example
 
