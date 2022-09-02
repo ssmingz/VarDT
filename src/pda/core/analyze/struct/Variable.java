@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -13,7 +13,7 @@ import org.eclipse.jdt.core.dom.Type;
 import java.util.*;
 
 /**
- * @author Jiajun
+ * @author
  *
  */
 public class Variable {
@@ -31,7 +31,7 @@ public class Variable {
 	private boolean _isField;
 	private boolean _isArgument;
 	private boolean _isLocalVar;
-	
+
 	private Set<Use> _uSet;
 
 	public Variable(String file, int line, int column, int modifier, Expression initializer, String name, Type type) {
@@ -45,20 +45,20 @@ public class Variable {
 		_uSet = new HashSet<>();
 		setLocalVar();
 	}
-	
+
 	public void addUse(Use use) {
 		_uSet.add(use);
 		use.setVariable(this);
 	}
-	
+
 	public void setPackage(String pkg) {
 		_package = pkg;
 	}
-	
+
 	public void setClazz(String clazz) {
 		_clazz = clazz;
 	}
-	
+
 	public void setParentBlock(BasicBlock basicBlock) {
 		_basicBlock = basicBlock;
 	}
@@ -68,75 +68,75 @@ public class Variable {
 		_isArgument = false;
 		_isLocalVar = false;
 	}
-	
+
 	public void setArgument() {
 		_isArgument = true;
 		_isField = false;
 		_isLocalVar = false;
 	}
-	
+
 	public void setLocalVar() {
 		_isLocalVar = true;
 		_isField = false;
 		_isArgument = false;
 	}
-	
+
 	public boolean isField() {
 		return _isField;
 	}
-	
+
 	public boolean isArgument() {
 		return _isArgument;
 	}
-	
+
 	public boolean isLocal() {
 		return _isLocalVar;
 	}
-	
+
 	public BasicBlock getParentBlock() {
 		return _basicBlock;
 	}
-	
+
 	public int getModifiers() {
 		return _modifier;
 	}
-	
+
 	public Expression getInitializer() {
 		return _initializer;
 	}
-	
+
 	public String getPackage() {
 		return _package;
 	}
-	
+
 	public String getClazz() {
 		return _clazz;
 	}
-	
+
 	public String getFile() {
 		return _file;
 	}
-	
+
 	public int getLineNumber() {
 		return _line;
 	}
-	
+
 	public int getColumn() {
 		return _column;
 	}
-	
+
 	public String getName() {
 		return _name;
 	}
-	
+
 	public Type getType() {
 		return _type;
 	}
-	
+
 	public Set<Use> getUseSet() {
 		return _uSet;
 	}
-	
+
 	public void dump() {
 		System.out.print("LINE : " + getLineNumber());
 		System.out.print(", COLUMN : " + getColumn());
@@ -147,17 +147,17 @@ public class Variable {
 			@Override
 			public int compare(Use o1, Use o2) {
 				int line = o1.getLineNumber() - o2.getLineNumber();
-				if(line == 0) {
+				if (line == 0) {
 					return o1.getColumnNumber() - o2.getColumnNumber();
 				}
 				return line;
 			}
 		});
-		for(Use use : uses) {
+		for (Use use : uses) {
 			use.dump();
 		}
 	}
-	
+
 	@Override
 	public String toString() {
 		return "[VAR ]" + _name + "(" + _type.toString() + ")(" + _line + ", " + _column + ")";

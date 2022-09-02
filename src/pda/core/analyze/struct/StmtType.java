@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -8,14 +8,14 @@
 package pda.core.analyze.struct;
 
 /**
- * @author Jiajun
+ * @author
  *
  */
 public enum StmtType {
 
-	METHODECL("MethodDeclaration"),
-	FIELDDECL("FieldDeclaration"),
-	ASSERT("AssertStatement"),
+    METHODECL("MethodDeclaration"),
+    FIELDDECL("FieldDeclaration"),
+    ASSERT("AssertStatement"),
     BLOCK("Block"),
     BREAK("BreakStatement"),
     CONSTRUCTINV("ConstructorInvocation"),
@@ -44,15 +44,16 @@ public enum StmtType {
     CATCH("CatchClause"),
     FINALLY("Finally"),
     UNKNOWN("UNKNOWN");
-    
-    private String _value; 
+
+    private String _value;
+
     private StmtType(String value) {
-    		_value = value;
+        _value = value;
     }
-    
+
     @Override
     public String toString() {
-    		return _value;
+        return _value;
     }
-	
+
 }

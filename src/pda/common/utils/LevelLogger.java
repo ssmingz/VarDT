@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -14,7 +14,7 @@ import org.apache.log4j.PropertyConfigurator;
 import java.io.File;
 
 /**
- * @author: 
+ * @author:
  * @date: 2021/11/2
  */
 public class LevelLogger {

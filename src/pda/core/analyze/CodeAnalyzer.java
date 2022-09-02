@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -22,7 +22,7 @@ import java.util.Set;
  * This class is an interface of code analysis, which provide several useful
  * functions
  * 
- * @author Jiajun
+ * @author
  *
  */
 public class CodeAnalyzer {
@@ -32,11 +32,11 @@ public class CodeAnalyzer {
 	 * use type {@code USETYPE.READ} and {@code USETYPE.WRITE}.
 	 * 
 	 * @param base
-	 *            : base path of source files
+	 *                    : base path of source files
 	 * @param relJavaFile
-	 *            : relative path of java file to parse
+	 *                    : relative path of java file to parse
 	 * @param line
-	 *            : line number to parse
+	 *                    : line number to parse
 	 * @return a set of variable names
 	 */
 	public static Set<String> getAllVariablesUsed(String base, String relJavaFile, int line) {
@@ -58,11 +58,11 @@ public class CodeAnalyzer {
 	 * initializers) will be included.
 	 * 
 	 * @param base
-	 *            : base path of source files
+	 *                    : base path of source files
 	 * @param relJavaFile
-	 *            : relative path of java file to parse
+	 *                    : relative path of java file to parse
 	 * @param line
-	 *            : line number to parse
+	 *                    : line number to parse
 	 * @return a map contains all variables that can be used in the code line with
 	 *         type info.
 	 */
@@ -84,16 +84,17 @@ public class CodeAnalyzer {
 	 * variables. ONLY include arguments and local defined variables.
 	 * 
 	 * @param base
-	 *            : base path of source files
+	 *                    : base path of source files
 	 * @param relJavaFile
-	 *            : relative path of java file to parse
+	 *                    : relative path of java file to parse
 	 * @param line
-	 *            : line number to parse
+	 *                    : line number to parse
 	 * @return a map contains all illegal variables can be used in the given code
 	 *         line
 	 */
-	public static Map<String, String> getAllLocalVariablesAvailableWithType(String base, String relJavaFile, int line, boolean mustInitialized) {
-		BasicBlock basicBlock = Analyzer.analyze(relJavaFile, base);	
+	public static Map<String, String> getAllLocalVariablesAvailableWithType(String base, String relJavaFile, int line,
+			boolean mustInitialized) {
+		BasicBlock basicBlock = Analyzer.analyze(relJavaFile, base);
 		Set<Variable> variables = basicBlock.getAllValidVariables(line);
 		Map<String, String> varMap = new HashMap<>();
 		for (Variable v : variables) {
@@ -101,7 +102,7 @@ public class CodeAnalyzer {
 				continue;
 			}
 			if (mustInitialized && !v.isArgument()) {
-				if(Modifier.isFinal(v.getModifiers())) {
+				if (Modifier.isFinal(v.getModifiers())) {
 					continue;
 				}
 				BasicBlock minimal = basicBlock.getMinimalBasicBlock(line);
@@ -124,7 +125,7 @@ public class CodeAnalyzer {
 						}
 					}
 				}
-				if(!initialized) {
+				if (!initialized) {
 					continue;
 				}
 			}
@@ -138,11 +139,11 @@ public class CodeAnalyzer {
 	 * {@code USETYPE.READ} use.
 	 * 
 	 * @param base
-	 *            : base path of source files
+	 *                    : base path of source files
 	 * @param relJavaFile
-	 *            : relative path of java file to parse
+	 *                    : relative path of java file to parse
 	 * @param line
-	 *            : line number of source code to parse
+	 *                    : line number of source code to parse
 	 * @return a set of variable names
 	 */
 	public static Set<String> getAllVariablesReadUse(String base, String relJavaFile, int line) {
@@ -162,11 +163,11 @@ public class CodeAnalyzer {
 	 * {@code USETYPE.WRITE} use.
 	 * 
 	 * @param base
-	 *            : base path of source files.
+	 *                    : base path of source files.
 	 * @param relJavaFile
-	 *            : relative path of java file to parse
+	 *                    : relative path of java file to parse
 	 * @param line
-	 *            : line number of source code to parse
+	 *                    : line number of source code to parse
 	 * @return a set of variable names
 	 */
 	public static Set<String> getAllVariablesWriteUse(String base, String relJavaFile, int line) {

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -20,15 +20,14 @@ import java.util.Set;
  * This class is responsible for constructing the execution path from the output
  * information
  * 
- * @author Jiajun
+ * @author
  *
  */
 public class ExecutionPathBuilder {
 
 	private final static String __name__ = "@ExecutionPathBuilder ";
 
-	
-	public static Map<String, CoverInfo> buildCoverage(String outputFile){
+	public static Map<String, CoverInfo> buildCoverage(String outputFile) {
 		Map<String, CoverInfo> coverage = new HashMap<>();
 		File file = new File(outputFile);
 		if (!file.exists()) {
@@ -58,9 +57,9 @@ public class ExecutionPathBuilder {
 				int succNum = Integer.parseInt(lineInfo[2]);
 				int failObservedNum = Integer.parseInt(lineInfo[3]);
 				int succObservedNum = Integer.parseInt(lineInfo[4]);
-	
+
 				CoverInfo coverInfo = coverage.get(lineNum);
-				if(coverInfo == null){
+				if (coverInfo == null) {
 					coverInfo = new CoverInfo();
 					coverage.put(lineNum, coverInfo);
 				}
@@ -84,8 +83,8 @@ public class ExecutionPathBuilder {
 
 		return coverage;
 	}
-	
-	public static Map<String, CoverInfo> buildCoverage(String outputFile, Set<Integer> onlyCoveredByFailedTest){
+
+	public static Map<String, CoverInfo> buildCoverage(String outputFile, Set<Integer> onlyCoveredByFailedTest) {
 		Map<String, CoverInfo> coverage = new HashMap<>();
 		File file = new File(outputFile);
 		if (!file.exists()) {
@@ -113,17 +112,17 @@ public class ExecutionPathBuilder {
 				String lineNum = lineInfo[0];
 				int failNum = Integer.parseInt(lineInfo[1]);
 				int succNum = Integer.parseInt(lineInfo[2]);
-				
+
 				String[] str = lineNum.split("#");
 				// when collecting the original coverage information, the length
 				// of str should exactly be 2 formatted as methodID#lineNumber
 				// otherwise, it exactly should be 5 items formatted as
 				// methodID#line#condition#prob#conditionCountFlag
 				// for predicted predicates
-				if(str.length > 2){
+				if (str.length > 2) {
 					int index = lineNum.lastIndexOf("#");
-					if(index > 0){
-						if(succNum == 0){
+					if (index > 0) {
+						if (succNum == 0) {
 							Integer conditionFlag = Integer.parseInt(lineNum.substring(index + 1, lineNum.length()));
 							onlyCoveredByFailedTest.add(conditionFlag);
 						}
@@ -132,11 +131,11 @@ public class ExecutionPathBuilder {
 						LevelLogger.error(__name__ + "#collectAllExecutedMethods line format error : " + lineNum);
 						System.exit(0);
 					}
-//					lineNum = str[0] + "#" + str[1];
+					// lineNum = str[0] + "#" + str[1];
 				}
-				
+
 				CoverInfo coverInfo = coverage.get(lineNum);
-				if(coverInfo != null){
+				if (coverInfo != null) {
 					coverInfo.passedAdd(succNum);
 					coverInfo.failedAdd(failNum);
 				} else {
@@ -161,12 +160,12 @@ public class ExecutionPathBuilder {
 
 		return coverage;
 	}
-	
+
 	/**
 	 * collect all methods executed from the given {@code outputFile}
 	 * 
 	 * @param outputFile
-	 *            : file contains the output instrument information
+	 *                   : file contains the output instrument information
 	 * @return a map that maps each method to the executed numbers
 	 */
 	public static Set<Integer> collectAllExecutedMethods(String outputFile) {
@@ -217,7 +216,7 @@ public class ExecutionPathBuilder {
 	 * collect all executed statement based on the output file
 	 * 
 	 * @param outputFile
-	 *            : file including the path information
+	 *                   : file including the path information
 	 * @return : a map contains all executed statements with corresponding
 	 *         executed times, statement formatted as : "MethodID#lineNumebr"
 	 */

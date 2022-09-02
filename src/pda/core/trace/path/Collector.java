@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -20,7 +20,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * @author Jiajun
+ * @author
  *
  */
 public class Collector {
@@ -29,11 +29,19 @@ public class Collector {
 
 	/**
 	 * collect the failed test cases and the methods covered by them
+	 * 
 	 * @param subject : the subject to be tested
-	 * @return a pair that contains the <p>ids of failted test cases</p> and
-	 * the <p>ids of covered methods</p>
+	 * @return a pair that contains the
+	 *         <p>
+	 *         ids of failted test cases
+	 *         </p>
+	 *         and
+	 *         the
+	 *         <p>
+	 *         ids of covered methods
+	 *         </p>
 	 */
-	public static Pair<Set<Integer>, Set<Integer>> collectFailedTestAndCoveredMethod(Subject subject){
+	public static Pair<Set<Integer>, Set<Integer>> collectFailedTestAndCoveredMethod(Subject subject) {
 		// run all test
 		try {
 			ExecuteCommand.executeDefects4JTest(CmdFactory.createTestSuiteCmd(subject));
@@ -51,7 +59,7 @@ public class Collector {
 	 * collect all failed test cases by parsing the d4j output information
 	 * 
 	 * @param outputFilePath
-	 *            : defects4j output file path
+	 *                       : defects4j output file path
 	 * @return a set of method ids of failed test cases
 	 */
 	public static Set<Integer> findFailedTestFromFile(String outputFilePath) {
@@ -83,7 +91,7 @@ public class Collector {
 					while (failingCount > 0) {
 						line = bReader.readLine();
 						int index = line.indexOf("-");
-//						if (index > 0 ) {
+						// if (index > 0 ) {
 						if (index > 0 && !line.contains("MainTest")) {
 							String testStr = line.substring(index + 2).trim();
 							String[] testInfo = testStr.split("::");
@@ -120,9 +128,9 @@ public class Collector {
 	 * collect all executed methods for given test cases {@code testcases}
 	 *
 	 * @param subject
-	 *            : current subject, e.g., chart_1_buggy
+	 *                  : current subject, e.g., chart_1_buggy
 	 * @param testcases
-	 *            :a set of method ids of test cases to be collected
+	 *                  :a set of method ids of test cases to be collected
 	 * @return a set of method ids covered by the given test cases
 	 */
 	public static Set<Integer> collectCoveredMethod(Subject subject, Set<Integer> testcases) {
@@ -161,5 +169,5 @@ public class Collector {
 		subject.restoreSource();
 		return allMethods;
 	}
-	
+
 }

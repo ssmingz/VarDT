@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -19,23 +19,22 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author Jiajun
+ * @author
  *
  */
 public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 
-
 	private final static String __name__ = "@MultiLinePredicateInstrumentVisitor ";
-	
+
 	private Map<Integer, List<Pair<String, String>>> _condition = null;
-	
+
 	private boolean _useSober = false;
 
 	public MultiLinePredicateInstrumentVisitor(boolean useSober) {
 		_condition = new HashMap<>();
 		_useSober = useSober;
 	}
-	
+
 	public MultiLinePredicateInstrumentVisitor(Map<Integer, List<Pair<String, String>>> condition, boolean useSober) {
 		_condition = condition;
 		_useSober = useSober;
@@ -52,11 +51,10 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 		int endLine = _cu.getLineNumber(node.getStartPosition() + node.getLength());
 
 		// no line need to be instrument for current method declaration
-		if(!containLine(startLine, endLine)){
+		if (!containLine(startLine, endLine)) {
 			return true;
 		}
-		
-		
+
 		String message = buildMethodInfoString(node);
 		if (message == null) {
 			return true;
@@ -92,8 +90,8 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 
 		int startLine = _cu.getLineNumber(statement.getStartPosition());
 		int endLine = _cu.getLineNumber(statement.getStartPosition() + statement.getLength());
-		
-		if(!containLine(startLine, endLine)){
+
+		if (!containLine(startLine, endLine)) {
 			result.add(statement);
 			return result;
 		}
@@ -109,7 +107,7 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 			if (thenBody != null) {
 				startLine = _cu.getLineNumber(thenBody.getStartPosition());
 				endLine = _cu.getLineNumber(thenBody.getStartPosition() + thenBody.getLength());
-				if(containLine(startLine, endLine)){
+				if (containLine(startLine, endLine)) {
 					Block newThenBlock = processBlock(wrapBlock(thenBody), methodID);
 					ifStatement.setThenStatement((Statement) ASTNode.copySubtree(ifStatement.getAST(), newThenBlock));
 				}
@@ -119,14 +117,14 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 			if (elseBody != null) {
 				startLine = _cu.getLineNumber(elseBody.getStartPosition());
 				endLine = _cu.getLineNumber(elseBody.getStartPosition() + elseBody.getLength());
-				if(containLine(startLine, endLine)){
+				if (containLine(startLine, endLine)) {
 					Block newElseBlock = processBlock(wrapBlock(elseBody), methodID);
 					ifStatement.setElseStatement((Statement) ASTNode.copySubtree(ifStatement.getAST(), newElseBlock));
 				}
 			}
 			result.add(ifStatement);
 		} else if (statement instanceof WhileStatement) {
-			
+
 			WhileStatement whileStatement = (WhileStatement) statement;
 			int lineNumber = _cu.getLineNumber(whileStatement.getExpression().getStartPosition());
 			result.addAll(genInstrument(methodID, lineNumber));
@@ -136,7 +134,7 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 			if (whilebody != null) {
 				startLine = _cu.getLineNumber(whilebody.getStartPosition());
 				endLine = _cu.getLineNumber(whilebody.getStartPosition() + whilebody.getLength());
-				if(containLine(startLine, endLine)){
+				if (containLine(startLine, endLine)) {
 					Block newWhileBlock = processBlock(wrapBlock(whilebody), methodID);
 					whileStatement.setBody((Statement) ASTNode.copySubtree(whileStatement.getAST(), newWhileBlock));
 				}
@@ -149,16 +147,16 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 		} else if (statement instanceof ForStatement) {
 
 			ForStatement forStatement = (ForStatement) statement;
-			
+
 			int lineNumber = -1;
-			if(forStatement.getExpression() != null){
+			if (forStatement.getExpression() != null) {
 				lineNumber = _cu.getLineNumber(forStatement.getExpression().getStartPosition());
-			} else if(forStatement.initializers() != null && forStatement.initializers().size() > 0){
-				lineNumber = _cu.getLineNumber(((ASTNode)forStatement.initializers().get(0)).getStartPosition());
-			} else if(forStatement.updaters() != null && forStatement.updaters().size() > 0){
-				lineNumber = _cu.getLineNumber(((ASTNode)forStatement.updaters().get(0)).getStartPosition());
+			} else if (forStatement.initializers() != null && forStatement.initializers().size() > 0) {
+				lineNumber = _cu.getLineNumber(((ASTNode) forStatement.initializers().get(0)).getStartPosition());
+			} else if (forStatement.updaters() != null && forStatement.updaters().size() > 0) {
+				lineNumber = _cu.getLineNumber(((ASTNode) forStatement.updaters().get(0)).getStartPosition());
 			}
-			if(lineNumber != -1){
+			if (lineNumber != -1) {
 				result.addAll(genInstrument(methodID, lineNumber));
 			}
 
@@ -167,7 +165,7 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 			if (forBody != null) {
 				startLine = _cu.getLineNumber(forBody.getStartPosition());
 				endLine = _cu.getLineNumber(forBody.getStartPosition() + forBody.getLength());
-				if(containLine(startLine, endLine)) {
+				if (containLine(startLine, endLine)) {
 					Block newForBlock = processBlock(wrapBlock(forBody), methodID);
 					forStatement.setBody((Statement) ASTNode.copySubtree(forStatement.getAST(), newForBlock));
 				}
@@ -185,19 +183,19 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 			if (doBody != null) {
 				startLine = _cu.getLineNumber(doBody.getStartPosition());
 				endLine = _cu.getLineNumber(doBody.getStartPosition() + doBody.getLength());
-				if(containLine(startLine, endLine)) {
+				if (containLine(startLine, endLine)) {
 					Block newDoBlock = processBlock(wrapBlock(doBody), methodID);
 					doStatement.setBody((Statement) ASTNode.copySubtree(doStatement.getAST(), newDoBlock));
 				}
 			}
-			
+
 			int lineNumber = _cu.getLineNumber(doStatement.getExpression().getStartPosition());
 			Block block = doStatement.getAST().newBlock();
 			block = extractNodeIntoBlock(block, doStatement.getBody());
 			block.statements().addAll(ASTNode.copySubtrees(block.getAST(), genInstrument(methodID, lineNumber)));
 			doStatement.setBody(block);
 			result.add(doStatement);
-			
+
 		} else if (statement instanceof Block) {
 			Block block = (Block) statement;
 			Block newBlock = processBlock(block, methodID);
@@ -214,13 +212,13 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 
 				startLine = _cu.getLineNumber(enhancedBody.getStartPosition());
 				endLine = _cu.getLineNumber(enhancedBody.getStartPosition() + enhancedBody.getLength());
-				if(containLine(startLine, endLine)) {
+				if (containLine(startLine, endLine)) {
 					Block newEnhancedBlock = processBlock(wrapBlock(enhancedBody), methodID);
 					enhancedForStatement
 							.setBody((Statement) ASTNode.copySubtree(enhancedForStatement.getAST(), newEnhancedBlock));
 				}
 			}
-			
+
 			Block block = enhancedBody.getAST().newBlock();
 			block.statements().addAll(ASTNode.copySubtrees(block.getAST(), result));
 			block = extractNodeIntoBlock(block, enhancedForStatement.getBody());
@@ -258,7 +256,7 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 			if (tryBlock != null) {
 				startLine = _cu.getLineNumber(tryBlock.getStartPosition());
 				endLine = _cu.getLineNumber(tryBlock.getStartPosition() + tryBlock.getLength());
-				if(containLine(startLine, endLine)){
+				if (containLine(startLine, endLine)) {
 					Block newTryBlock = processBlock(tryBlock, methodID);
 					tryStatement.setBody((Block) ASTNode.copySubtree(tryStatement.getAST(), newTryBlock));
 				}
@@ -280,7 +278,7 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 			if (finallyBlock != null) {
 				startLine = _cu.getLineNumber(finallyBlock.getStartPosition());
 				endLine = _cu.getLineNumber(finallyBlock.getStartPosition() + finallyBlock.getLength());
-				if(containLine(startLine, endLine)) {
+				if (containLine(startLine, endLine)) {
 					Block newFinallyBlock = processBlock(finallyBlock, methodID);
 					tryStatement.setFinally((Block) ASTNode.copySubtree(tryStatement.getAST(), newFinallyBlock));
 				}
@@ -290,7 +288,7 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 		} else {
 			Statement copy = (Statement) ASTNode.copySubtree(AST.newAST(Constant.AST_LEVEL), statement);
 			List<ASTNode> tmpInserted = genInstrument(methodID, startLine);
-			
+
 			// fix, 2018-1-5, insert statement for left hand side variable in
 			// assignment
 			if ((statement instanceof ExpressionStatement
@@ -319,10 +317,10 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 
 		return result;
 	}
-	
+
 	private Block extractNodeIntoBlock(Block block, ASTNode node) {
-		if(node != null) {
-			if(node instanceof Block) {
+		if (node != null) {
+			if (node instanceof Block) {
 				block.statements().addAll(ASTNode.copySubtrees(block.getAST(), ((Block) node).statements()));
 			} else {
 				block.statements().add(ASTNode.copySubtree(block.getAST(), node));
@@ -330,17 +328,20 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 		}
 		return block;
 	}
-	
-	private List<ASTNode> genInstrument(String methodID, int line){
+
+	private List<ASTNode> genInstrument(String methodID, int line) {
 		List<ASTNode> result = new ArrayList<>();
 		List<Pair<String, String>> preds = _condition.get(line);
 		if (preds != null) {
-			for(int count = 0; count < preds.size(); count ++){
+			for (int count = 0; count < preds.size(); count++) {
 				String condition = preds.get(count).getFirst();
 				String prob = preds.get(count).getSecond();
-				ASTNode inserted = _useSober ? GenStatement.newGenPredicateStatementForEvaluationBias(condition, methodID + "#" + line + "#" + condition + "#" + prob) :
-					GenStatement.newGenPredicateStatement(condition, methodID + "#" + line + "#" + condition + "#" + prob);
-				if(inserted != null){
+				ASTNode inserted = _useSober
+						? GenStatement.newGenPredicateStatementForEvaluationBias(condition,
+								methodID + "#" + line + "#" + condition + "#" + prob)
+						: GenStatement.newGenPredicateStatement(condition,
+								methodID + "#" + line + "#" + condition + "#" + prob);
+				if (inserted != null) {
 					result.add(inserted);
 				}
 			}
@@ -363,11 +364,10 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 		}
 		return newBlock;
 	}
-	
-	
-	private Block wrapBlock(Statement statement){
+
+	private Block wrapBlock(Statement statement) {
 		Block block = null;
-		if(statement instanceof Block){
+		if (statement instanceof Block) {
 			block = (Block) statement;
 		} else {
 			AST ast = AST.newAST(Constant.AST_LEVEL);
@@ -376,9 +376,9 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 		}
 		return block;
 	}
-	
-	private boolean containLine(int startLine, int endLine){
-		for(Integer line : _condition.keySet()){
+
+	private boolean containLine(int startLine, int endLine) {
+		for (Integer line : _condition.keySet()) {
 			if (startLine <= line && line <= endLine) {
 				return true;
 			}
@@ -386,5 +386,4 @@ public class MultiLinePredicateInstrumentVisitor extends TraversalVisitor {
 		return false;
 	}
 
-	
 }

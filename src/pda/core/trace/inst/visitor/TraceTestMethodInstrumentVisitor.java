@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author Jiajun
+ * @author
  *
  */
 public class TraceTestMethodInstrumentVisitor extends TraversalVisitor {
 
 	private final static String __name__ = "@NewTestMethodInstrumentVisitor ";
-	
+
 	private Set<Integer> _failedTest;
 
 	public TraceTestMethodInstrumentVisitor(Set<Integer> failedMethods) {
@@ -36,27 +36,27 @@ public class TraceTestMethodInstrumentVisitor extends TraversalVisitor {
 	public boolean visit(MethodDeclaration node) {
 
 		String name = node.getName().getFullyQualifiedName();
-		
+
 		if ((name.equals("setUp") || name.equals("countTestCases") || name.equals("createResult") || name.equals("run")
 				|| name.equals("runBare") || name.equals("runTest") || name.equals("tearDown")
 				|| name.equals("toString") || name.equals("getName") || name.equals("setName"))) {
 			return true;
 		}
-		
+
 		// filter those functional methods in test class path, test method name
 		// starting with "test" in Junit 3 while with annotation as "@Test" in
 		// Junit 4,
 		// TODO should be optimized since the "contain" method is time consuming
 		boolean hasAnnotation = false;
-		for(Object object : node.modifiers()){
-			if(object instanceof MarkerAnnotation){
-				if(object.toString().equals("@Test")){
+		for (Object object : node.modifiers()) {
+			if (object instanceof MarkerAnnotation) {
+				if (object.toString().equals("@Test")) {
 					hasAnnotation = true;
 					break;
 				}
 			}
 		}
-		
+
 		// bug fix: does not instrument test cases with parameters 2018-3-1
 		if ((!name.startsWith("test") && !hasAnnotation) || node.parameters().size() > 0) {
 			return true;

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -18,7 +18,7 @@ import java.util.Map.Entry;
 /**
  * Used for label each method with a unique id
  * 
- * @author Jiajun
+ * @author
  *
  */
 public class Identifier {
@@ -31,12 +31,12 @@ public class Identifier {
 		inverseIdentifier = new HashMap<>();
 		counter = 0;
 	}
-	
+
 	@SuppressWarnings("resource")
-	public static void backup(Subject subject){
-		String fileName =  Utils.join(subject.getOutBase(), "identifier.txt");
+	public static void backup(Subject subject) {
+		String fileName = Utils.join(subject.getOutBase(), "identifier.txt");
 		File file = new File(fileName);
-		if(!file.exists()){
+		if (!file.exists()) {
 			file.getParentFile().mkdirs();
 			try {
 				file.createNewFile();
@@ -45,7 +45,7 @@ public class Identifier {
 				return;
 			}
 		}
-		
+
 		BufferedWriter bw = null;
 		try {
 			bw = new BufferedWriter(new FileWriter(file));
@@ -53,8 +53,8 @@ public class Identifier {
 			LevelLogger.error("Backup identifier information failed!");
 			return;
 		}
-		
-		for(Entry<Integer, String> pair : identifiers.entrySet()){
+
+		for (Entry<Integer, String> pair : identifiers.entrySet()) {
 			String line = pair.getKey() + "\t" + pair.getValue() + "\n";
 			try {
 				bw.write(line);
@@ -69,17 +69,17 @@ public class Identifier {
 			LevelLogger.error("Backup identifier information failed!");
 			return;
 		}
-		
+
 	}
-	
-	public static void restore(Subject subject){
-		String fileName =  Utils.join(subject.getOutBase(), "identifier.txt");
+
+	public static void restore(Subject subject) {
+		String fileName = Utils.join(subject.getOutBase(), "identifier.txt");
 		File file = new File(fileName);
-		if(!file.exists()){
+		if (!file.exists()) {
 			LevelLogger.error("Restore identifier information failed, not find : " + fileName);
 			return;
 		}
-		
+
 		BufferedReader br = null;
 		try {
 			br = new BufferedReader(new FileReader(file));
@@ -88,9 +88,9 @@ public class Identifier {
 		}
 		String line = null;
 		try {
-			while((line = br.readLine()) != null){
+			while ((line = br.readLine()) != null) {
 				String[] info = line.split("\t");
-				if(info.length != 2){
+				if (info.length != 2) {
 					LevelLogger.error("Restore identifier information format error : " + line);
 					continue;
 				}
@@ -112,17 +112,17 @@ public class Identifier {
 	public static boolean containKey(Integer id) {
 		return identifiers.containsKey(id);
 	}
-	
+
 	public static boolean containsKey(String key) {
 		return inverseIdentifier.containsKey(key);
 	}
-	
+
 	/**
 	 * get exclusive method id based on the given method string information,
 	 * 
 	 * @param message
-	 *            : string representation for method, e.g.,
-	 *            "fullClasspath#returnType#methodName#arguments"
+	 *                : string representation for method, e.g.,
+	 *                "fullClasspath#returnType#methodName#arguments"
 	 * @return an exclusive id for the given method
 	 */
 	public static Integer getIdentifier(String message) {
@@ -141,7 +141,7 @@ public class Identifier {
 	 * get method string representation for the given method id
 	 * 
 	 * @param id
-	 *            : method id
+	 *           : method id
 	 * @return a string of a method, e.g.,
 	 *         "fullClasspath#returnType#methodName#arguments"
 	 */

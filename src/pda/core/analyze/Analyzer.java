@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -21,7 +21,7 @@ import java.util.Stack;
 import java.util.regex.Pattern;
 
 /**
- * @author: 
+ * @author:
  * @date: 2021/11/12
  */
 public class Analyzer {
@@ -35,7 +35,7 @@ public class Analyzer {
     public static BasicBlock analyze(String relJavaFile, String srcBase) {
         String file = new File(srcBase + "/" + relJavaFile).getAbsolutePath();
         BasicBlock basicBlock = _cache.get(file);
-        if(basicBlock != null) {
+        if (basicBlock != null) {
             return basicBlock;
         }
         CompilationUnit unit = JavaFile.genASTFromFileWithType(file, srcBase);
@@ -104,7 +104,7 @@ public class Analyzer {
                     Type type = null;
                     // global variables
                     if (Modifier.isStatic(modifier)) {
-                        if (Modifier.isPublic(modifier) /*&& !Modifier.isFinal(modifier)*/) {
+                        if (Modifier.isPublic(modifier) /* && !Modifier.isFinal(modifier) */) {
                             for (Object fragment : fd.fragments()) {
                                 VariableDeclarationFragment vdf = (VariableDeclarationFragment) fragment;
                                 type = parseArrayType(fd.getType(), vdf.getExtraDimensions());
@@ -114,13 +114,14 @@ public class Analyzer {
                                 Variable variable = new Variable(_file, line, column, modifier, vdf.getInitializer(),
                                         name.getFullyQualifiedName(), type);
                                 variable.isField();
-                                Use use = new Use(line, column, vdf, null, USETYPE.DEFINE, StmtType.FIELDDECL, basicBlock);
+                                Use use = new Use(line, column, vdf, null, USETYPE.DEFINE, StmtType.FIELDDECL,
+                                        basicBlock);
                                 variable.addUse(use);
                                 BasicBlock.addGlobalVariables(variable);
                             }
                         }
                         // local variables
-                    } else /*if (!Modifier.isFinal(modifier)) */{
+                    } else /* if (!Modifier.isFinal(modifier)) */ {
                         for (Object fragment : fd.fragments()) {
                             VariableDeclarationFragment vdf = (VariableDeclarationFragment) fragment;
                             type = parseArrayType(fd.getType(), vdf.getExtraDimensions());
@@ -191,39 +192,42 @@ public class Analyzer {
 
         /**
          * declaration and a constructor declaration.
-         *   MethodDeclaration:
-         *      [ Javadoc ] { ExtendedModifier } [ < TypeParameter { , TypeParameter } > ] ( Type | void )
-         *         Identifier (
-         *            [ ReceiverParameter , ] [ FormalParameter { , FormalParameter } ]
-         *         ) { Dimension }
-         *         [ throws Type { , Type } ]
-         *         ( Block | ; )
-         *   ConstructorDeclaration:
-         *      [ Javadoc ] { ExtendedModifier } [ < TypeParameter { , TypeParameter } > ]
-         *         Identifier (
-         *            [ ReceiverParameter , ] [ FormalParameter { , FormalParameter } ]
-         *         ) { Dimension }
-         *         [ throws Type { , Type } ]
-         *         ( Block | ; )
+         * MethodDeclaration:
+         * [ Javadoc ] { ExtendedModifier } [ < TypeParameter { , TypeParameter } > ] (
+         * Type | void )
+         * Identifier (
+         * [ ReceiverParameter , ] [ FormalParameter { , FormalParameter } ]
+         * ) { Dimension }
+         * [ throws Type { , Type } ]
+         * ( Block | ; )
+         * ConstructorDeclaration:
+         * [ Javadoc ] { ExtendedModifier } [ < TypeParameter { , TypeParameter } > ]
+         * Identifier (
+         * [ ReceiverParameter , ] [ FormalParameter { , FormalParameter } ]
+         * ) { Dimension }
+         * [ throws Type { , Type } ]
+         * ( Block | ; )
          */
         public boolean visit(MethodDeclaration node, USETYPE useType, Expression booleanExpr) {
             int minLineNumber = _unit.getLineNumber(node.getStartPosition());
             int maxLineNumber = _unit.getLineNumber(node.getStartPosition() + node.getLength());
-            BasicBlock basicBlock = new BasicBlock(_file, _package, _publicClazz, _unit, minLineNumber, maxLineNumber, _visitedBlock.peek());
+            BasicBlock basicBlock = new BasicBlock(_file, _package, _publicClazz, _unit, minLineNumber, maxLineNumber,
+                    _visitedBlock.peek());
             basicBlock.setBlockType(BLOCKTYPE.METHOD, node.getName().getFullyQualifiedName());
             _visitedBlock.push(basicBlock);
             _visitedStatement.push(StmtType.METHODECL);
             for (Object arg : node.parameters()) {
                 SingleVariableDeclaration svd = (SingleVariableDeclaration) arg;
                 int dim = 0;
-                if(svd.toString().contains("...")) {
+                if (svd.toString().contains("...")) {
                     dim = 1;
                 }
                 Type type = parseArrayType(svd.getType(), svd.getExtraDimensions() + dim);
                 SimpleName name = svd.getName();
                 int line = _unit.getLineNumber(name.getStartPosition());
                 int column = _unit.getColumnNumber(name.getStartPosition());
-                Variable variable = new Variable(_file, line, column, node.getModifiers(), svd.getInitializer(), name.getFullyQualifiedName(), type);
+                Variable variable = new Variable(_file, line, column, node.getModifiers(), svd.getInitializer(),
+                        name.getFullyQualifiedName(), type);
                 variable.setArgument();
                 Use use = new Use(line, column, node, booleanExpr, USETYPE.DEFINE, StmtType.METHODECL, basicBlock);
                 variable.addUse(use);
@@ -241,7 +245,7 @@ public class Analyzer {
         /*****************************************************************************/
         /*
          * AssertStatement:
-         *   assert Expression [ : Expression ] ;
+         * assert Expression [ : Expression ] ;
          */
         private boolean visit(AssertStatement node, USETYPE useType, Expression booleanExpr) {
             _visitedStatement.push(StmtType.ASSERT);
@@ -252,8 +256,8 @@ public class Analyzer {
 
         /*
          * Block statement AST node type.
-         *   Block:
-         *     { { Statement } }
+         * Block:
+         * { { Statement } }
          */
         private boolean visit(Block node, USETYPE useType, Expression booleanExpr) {
             int minLine = _unit.getLineNumber(node.getStartPosition());
@@ -273,7 +277,7 @@ public class Analyzer {
 
         /*
          * BreakStatement:
-         * 	break [ Identifier ] ;
+         * break [ Identifier ] ;
          */
         private boolean visit(BreakStatement node, USETYPE useType, Expression booleanExpr) {
             if (node.getLabel() != null) {
@@ -289,8 +293,8 @@ public class Analyzer {
 
         /*
          * ConstructorInvocation:
-         *     [ < Type { , Type } > ]
-         *     this ( [ Expression { , Expression } ] ) ;
+         * [ < Type { , Type } > ]
+         * this ( [ Expression { , Expression } ] ) ;
          */
         private boolean visit(ConstructorInvocation node, USETYPE useType, Expression booleanExpr) {
             _visitedStatement.push(StmtType.CONSTRUCTINV);
@@ -303,7 +307,7 @@ public class Analyzer {
 
         /*
          * ContinueStatement:
-         *   continue [ Identifier ] ;
+         * continue [ Identifier ] ;
          */
         private boolean visit(ContinueStatement node, USETYPE useType, Expression booleanExpr) {
             if (node.getLabel() != null) {
@@ -319,7 +323,7 @@ public class Analyzer {
 
         /*
          * DoStatement:
-         *   do Statement while ( Expression ) ;
+         * do Statement while ( Expression ) ;
          */
         private boolean visit(DoStatement node, USETYPE useType, Expression booleanExpr) {
             int minLineNumber = _unit.getLineNumber(node.getStartPosition());
@@ -338,7 +342,7 @@ public class Analyzer {
 
         /*
          * EmptyStatement:
-         *   ;
+         * ;
          */
         private boolean visit(EmptyStatement node, USETYPE useType, Expression booleanExpr) {
             return true;
@@ -346,8 +350,8 @@ public class Analyzer {
 
         /*
          * EnhancedForStatement:
-         *   for ( FormalParameter : Expression )
-         *               Statement
+         * for ( FormalParameter : Expression )
+         * Statement
          */
         private boolean visit(EnhancedForStatement node, USETYPE useType, Expression booleanExpr) {
             int minLineNumber = _unit.getLineNumber(node.getStartPosition());
@@ -380,7 +384,7 @@ public class Analyzer {
 
         /*
          * ExpressionStatement:
-         *   StatementExpression ;
+         * StatementExpression ;
          */
         private boolean visit(ExpressionStatement node, USETYPE useType, Expression booleanExpr) {
             _visitedStatement.push(StmtType.EXRESSION);
@@ -391,15 +395,15 @@ public class Analyzer {
 
         /*
          * ForStatement:
-         *   for (
-         *           [ ForInit ];
-         *           [ Expression ] ;
-         *           [ ForUpdate ] )
-         *           Statement
-         *   ForInit:
-         *      Expression { , Expression }
-         *   ForUpdate:
-         *      Expression { , Expression }
+         * for (
+         * [ ForInit ];
+         * [ Expression ] ;
+         * [ ForUpdate ] )
+         * Statement
+         * ForInit:
+         * Expression { , Expression }
+         * ForUpdate:
+         * Expression { , Expression }
          */
         private boolean visit(ForStatement node, USETYPE useType, Expression booleanExpr) {
             int minLineNumber = _unit.getLineNumber(node.getStartPosition());
@@ -440,7 +444,7 @@ public class Analyzer {
 
         /*
          * IfStatement:
-         *   if ( Expression ) Statement [ else Statement]
+         * if ( Expression ) Statement [ else Statement]
          */
         private boolean visit(IfStatement node, USETYPE useType, Expression booleanExpr) {
             int minLineNumber = _unit.getLineNumber(node.getStartPosition());
@@ -461,7 +465,7 @@ public class Analyzer {
 
         /*
          * LabeledStatement:
-         *   Identifier : Statement
+         * Identifier : Statement
          */
         private boolean visit(LabeledStatement node, USETYPE useType, Expression booleanExpr) {
             Name name = node.getLabel();
@@ -483,16 +487,16 @@ public class Analyzer {
 
         /*
          * ReturnStatement:
-         *   return [ Expression ] ;
+         * return [ Expression ] ;
          */
         private boolean visit(ReturnStatement node, USETYPE useType, Expression booleanExpr) {
             _visitedStatement.push(StmtType.RETURN);
             Expression expression = null;
             ASTNode parent = node.getParent();
-            while(parent != null) {
-                if(parent instanceof MethodDeclaration) {
+            while (parent != null) {
+                if (parent instanceof MethodDeclaration) {
                     MethodDeclaration md = (MethodDeclaration) parent;
-                    if(md.getReturnType2() != null && md.getReturnType2().toString().equals("boolean")) {
+                    if (md.getReturnType2() != null && md.getReturnType2().toString().equals("boolean")) {
                         expression = node.getExpression();
                     }
                     break;
@@ -506,14 +510,14 @@ public class Analyzer {
 
         /*
          * SuperConstructorInvocation:
-         *   [ Expression . ]
-         *     [ < Type { , Type } > ]
-         *     super ( [ Expression { , Expression } ] ) ;
+         * [ Expression . ]
+         * [ < Type { , Type } > ]
+         * super ( [ Expression { , Expression } ] ) ;
          */
         private boolean visit(SuperConstructorInvocation node, USETYPE useType, Expression booleanExpr) {
             _visitedStatement.push(StmtType.SUPERCONSTRUCTORINV);
             process(node.getExpression(), USETYPE.READ, null);
-            for(Object arg : node.arguments()) {
+            for (Object arg : node.arguments()) {
                 process((ASTNode) arg, USETYPE.READ, null);
             }
             _visitedStatement.pop();
@@ -522,8 +526,8 @@ public class Analyzer {
 
         /*
          * SwitchCase:
-         *      case Expression  :
-         *      default :
+         * case Expression :
+         * default :
          */
         private boolean visit(SwitchCase node, USETYPE useType, Expression booleanExpr) {
             _visitedStatement.push(StmtType.CASE);
@@ -534,13 +538,14 @@ public class Analyzer {
 
         /*
          * SwitchStatement:
-         *       switch ( Expression )
-         *              { { SwitchCase | Statement } } }
+         * switch ( Expression )
+         * { { SwitchCase | Statement } } }
          */
         private boolean visit(SwitchStatement node, USETYPE useType, Expression booleanExpr) {
             int minLineNumber = _unit.getLineNumber(node.getStartPosition());
             int maxLineNumber = _unit.getLineNumber(node.getStartPosition() + node.getLength());
-            BasicBlock basicBlock = new BasicBlock(_file, _package, _publicClazz, _unit, minLineNumber, maxLineNumber, _visitedBlock.peek());
+            BasicBlock basicBlock = new BasicBlock(_file, _package, _publicClazz, _unit, minLineNumber, maxLineNumber,
+                    _visitedBlock.peek());
             basicBlock.setBlockType(BLOCKTYPE.SWITCH, "SwitchStatement");
             _visitedBlock.push(basicBlock);
             _visitedStatement.push(StmtType.SWITCH);
@@ -548,15 +553,16 @@ public class Analyzer {
             boolean notfirst = false;
             int minLine = Integer.MAX_VALUE;
             int maxLine = 0;
-            for(Object stmt : node.statements()) {
-                if(stmt instanceof SwitchCase) {
-                    if(notfirst) {
+            for (Object stmt : node.statements()) {
+                if (stmt instanceof SwitchCase) {
+                    if (notfirst) {
                         _visitedBlock.pop().setCodeRange(minLine, maxLine);
                         minLine = Integer.MAX_VALUE;
                         maxLine = 0;
                     }
                     notfirst = true;
-                    BasicBlock caseBlock = new BasicBlock(_file, _package, _publicClazz, _unit, 0, 0, _visitedBlock.peek());
+                    BasicBlock caseBlock = new BasicBlock(_file, _package, _publicClazz, _unit, 0, 0,
+                            _visitedBlock.peek());
                     caseBlock.setBlockType(BLOCKTYPE.CASE, "SwitchCase");
                     _visitedBlock.push(caseBlock);
                 }
@@ -575,12 +581,13 @@ public class Analyzer {
 
         /*
          * SynchronizedStatement:
-         *   synchronized ( Expression ) Block
+         * synchronized ( Expression ) Block
          */
         private boolean visit(SynchronizedStatement node, USETYPE useType, Expression booleanExpr) {
             int minLineNumber = _unit.getLineNumber(node.getStartPosition());
             int maxLineNumber = _unit.getLineNumber(node.getStartPosition() + node.getLength());
-            BasicBlock basicBlock = new BasicBlock(_file, _package, _publicClazz, _unit, minLineNumber, maxLineNumber, _visitedBlock.peek());
+            BasicBlock basicBlock = new BasicBlock(_file, _package, _publicClazz, _unit, minLineNumber, maxLineNumber,
+                    _visitedBlock.peek());
             basicBlock.setBlockType(BLOCKTYPE.SYNC, "SynchronizedStatement");
             _visitedBlock.push(basicBlock);
             _visitedStatement.push(StmtType.SYNCHRONIZED);
@@ -593,7 +600,7 @@ public class Analyzer {
 
         /*
          * ThrowStatement:
-         *   throw Expression ;
+         * throw Expression ;
          */
         private boolean visit(ThrowStatement node, USETYPE useType, Expression booleanExpr) {
             _visitedStatement.push(StmtType.THROW);
@@ -604,10 +611,10 @@ public class Analyzer {
 
         /*
          * TryStatement:
-         *   try [ ( Resources ) ]
-         *     Block
-         *     [ { CatchClause } ]
-         *     [ finally Block ]
+         * try [ ( Resources ) ]
+         * Block
+         * [ { CatchClause } ]
+         * [ finally Block ]
          */
         private boolean visit(TryStatement node, USETYPE useType, Expression booleanExpr) {
             int minLineNumber = _unit.getLineNumber(node.getStartPosition());
@@ -617,12 +624,13 @@ public class Analyzer {
             basicBlock.setBlockType(BLOCKTYPE.TRY, "TryStatement");
             _visitedBlock.push(basicBlock);
             _visitedStatement.push(StmtType.TRY);
-            // This operation is not supported when the AST was parsed with a lower parser (<JLS4)
-//			if (node.resources() != null) {
-//				for (Object object : node.resources()) {
-//					process((ASTNode) object, USETYPE.READ, null);
-//				}
-//			}
+            // This operation is not supported when the AST was parsed with a lower parser
+            // (<JLS4)
+            // if (node.resources() != null) {
+            // for (Object object : node.resources()) {
+            // process((ASTNode) object, USETYPE.READ, null);
+            // }
+            // }
             process(node.getBody(), USETYPE.UNKNOWN, null);
             _visitedBlock.pop();
             _visitedStatement.pop();
@@ -637,7 +645,8 @@ public class Analyzer {
                 Block finallyBlock = node.getFinally();
                 minLineNumber = _unit.getLineNumber(finallyBlock.getStartPosition());
                 maxLineNumber = _unit.getLineNumber(finallyBlock.getStartPosition() + finallyBlock.getLength());
-                BasicBlock basicBlock2 = new BasicBlock(_file, _package, _publicClazz, _unit, minLineNumber, maxLineNumber, basicBlock);
+                BasicBlock basicBlock2 = new BasicBlock(_file, _package, _publicClazz, _unit, minLineNumber,
+                        maxLineNumber, basicBlock);
                 basicBlock2.setBlockType(BLOCKTYPE.FINALLY, "Finally");
                 _visitedBlock.add(basicBlock2);
                 process(node.getFinally(), USETYPE.UNKNOWN, null);
@@ -649,8 +658,8 @@ public class Analyzer {
 
         /*
          * TypeDeclarationStatement:
-         *   TypeDeclaration
-         *   EnumDeclaration
+         * TypeDeclaration
+         * EnumDeclaration
          */
         private boolean visit(TypeDeclarationStatement node, USETYPE useType, Expression booleanExpr) {
             process(node.getDeclaration(), USETYPE.UNKNOWN, null);
@@ -659,8 +668,8 @@ public class Analyzer {
 
         /*
          * VariableDeclarationStatement:
-         *   { ExtendedModifier } Type VariableDeclarationFragment
-         *     { , VariableDeclarationFragment } ;
+         * { ExtendedModifier } Type VariableDeclarationFragment
+         * { , VariableDeclarationFragment } ;
          */
         private boolean visit(VariableDeclarationStatement node, USETYPE useType, Expression booleanExpr) {
             _visitedStatement.push(StmtType.VARDECL);
@@ -684,7 +693,7 @@ public class Analyzer {
 
         /*
          * WhileStatement:
-         *   while ( Expression ) Statement
+         * while ( Expression ) Statement
          */
         private boolean visit(WhileStatement node, USETYPE useType, Expression booleanExpr) {
             int minLineNumber = _unit.getLineNumber(node.getStartPosition());
@@ -704,7 +713,7 @@ public class Analyzer {
 
         /*
          * CatchClause:
-         *   catch ( FormalParameter ) Block
+         * catch ( FormalParameter ) Block
          */
         private boolean visit(CatchClause node, USETYPE useType, Expression booleanExpr) {
             int minLineNumber = _unit.getLineNumber(node.getStartPosition());
@@ -736,9 +745,9 @@ public class Analyzer {
         /*****************************************************************************/
         /*
          * Annotation:
-         *      NormalAnnotation
-         *      MarkerAnnotation
-         *      SingleMemberAnnotation
+         * NormalAnnotation
+         * MarkerAnnotation
+         * SingleMemberAnnotation
          */
         private boolean visit(Annotation node, USETYPE useType, Expression booleanExpr) {
             return true;
@@ -746,7 +755,7 @@ public class Analyzer {
 
         /*
          * ArrayAccess:
-         *   Expression [ Expression ]
+         * Expression [ Expression ]
          */
         private boolean visit(ArrayAccess node, USETYPE useType, Expression booleanExpr) {
             process(node.getArray(), useType, booleanExpr);
@@ -756,15 +765,15 @@ public class Analyzer {
 
         /*
          * ArrayCreation:
-         *   new PrimitiveType [ Expression ] { [ Expression ] } { [ ] }
-         *   new TypeName [ < Type { , Type } > ]
-         *      [ Expression ] { [ Expression ] } { [ ] }
-         *   new PrimitiveType [ ] { [ ] } ArrayInitializer
-         *   new TypeName [ < Type { , Type } > ]
-         *      [ ] { [ ] } ArrayInitializer
+         * new PrimitiveType [ Expression ] { [ Expression ] } { [ ] }
+         * new TypeName [ < Type { , Type } > ]
+         * [ Expression ] { [ Expression ] } { [ ] }
+         * new PrimitiveType [ ] { [ ] } ArrayInitializer
+         * new TypeName [ < Type { , Type } > ]
+         * [ ] { [ ] } ArrayInitializer
          */
         private boolean visit(ArrayCreation node, USETYPE useType, Expression booleanExpr) {
-            for(Object dim : node.dimensions()) {
+            for (Object dim : node.dimensions()) {
                 process((ASTNode) dim, USETYPE.READ, null);
             }
             process(node.getInitializer(), USETYPE.READ, null);
@@ -773,10 +782,10 @@ public class Analyzer {
 
         /*
          * ArrayInitializer:
-         *      { [ Expression { , Expression} [ , ]] }
+         * { [ Expression { , Expression} [ , ]] }
          */
         private boolean visit(ArrayInitializer node, USETYPE useType, Expression booleanExpr) {
-            for(Object expr : node.expressions()) {
+            for (Object expr : node.expressions()) {
                 process((ASTNode) expr, USETYPE.READ, null);
             }
             return true;
@@ -784,7 +793,7 @@ public class Analyzer {
 
         /*
          * Assignment:
-         *   Expression AssignmentOperator Expression
+         * Expression AssignmentOperator Expression
          */
         private boolean visit(Assignment node, USETYPE useType, Expression booleanExpr) {
             _visitedStatement.push(StmtType.ASSIGNMENT);
@@ -796,21 +805,22 @@ public class Analyzer {
 
         /*
          * BooleanLiteral:
-         *      true
-         *      false
+         * true
+         * false
          */
         private boolean visit(BooleanLiteral node, USETYPE useType, Expression booleanExpr) {
             int line = _unit.getLineNumber(node.getStartPosition());
             int column = _unit.getColumnNumber(node.getStartPosition());
             Boolean value = Boolean.valueOf(node.booleanValue());
-            BoolValue boolValue = new BoolValue(_file, line, column, value, genPrimitiveType(node.getAST(), PrimitiveType.BOOLEAN));
+            BoolValue boolValue = new BoolValue(_file, line, column, value,
+                    genPrimitiveType(node.getAST(), PrimitiveType.BOOLEAN));
             _visitedBlock.peek().addConstant(boolValue);
             return true;
         }
 
         /*
          * CastExpression:
-         *   ( Type ) Expression
+         * ( Type ) Expression
          */
         private boolean visit(CastExpression node, USETYPE useType, Expression booleanExpr) {
             process(node.getExpression(), useType, booleanExpr);
@@ -821,21 +831,22 @@ public class Analyzer {
             int line = _unit.getLineNumber(node.getStartPosition());
             int column = _unit.getColumnNumber(node.getStartPosition());
             Character ch = Character.valueOf(node.charValue());
-            CharValue charValue = new CharValue(_file, line, column, ch, genPrimitiveType(node.getAST(), PrimitiveType.CHAR));
+            CharValue charValue = new CharValue(_file, line, column, ch,
+                    genPrimitiveType(node.getAST(), PrimitiveType.CHAR));
             _visitedBlock.peek().addConstant(charValue);
             return true;
         }
 
         /*
          * ClassInstanceCreation:
-         *   [ Expression . ]
-         *     new [ < Type { , Type } > ]
-         *     Type ( [ Expression { , Expression } ] )
-         *     [ AnonymousClassDeclaration ]
+         * [ Expression . ]
+         * new [ < Type { , Type } > ]
+         * Type ( [ Expression { , Expression } ] )
+         * [ AnonymousClassDeclaration ]
          */
         private boolean visit(ClassInstanceCreation node, USETYPE useType, Expression booleanExpr) {
             process(node.getExpression(), USETYPE.READ, null);
-            for(Object arg : node.arguments()) {
+            for (Object arg : node.arguments()) {
                 process((ASTNode) arg, USETYPE.READ, null);
             }
             return true;
@@ -843,7 +854,7 @@ public class Analyzer {
 
         /*
          * ConditionalExpression:
-         *   Expression ? Expression : Expression
+         * Expression ? Expression : Expression
          */
         private boolean visit(ConditionalExpression node, USETYPE useType, Expression booleanExpr) {
             process(node.getExpression(), USETYPE.READ, node.getExpression());
@@ -854,9 +865,9 @@ public class Analyzer {
 
         /*
          * CreationReference:
-         *   Type ::
-         *     [ < Type { , Type } > ]
-         *     new
+         * Type ::
+         * [ < Type { , Type } > ]
+         * new
          */
         private boolean visit(CreationReference node, USETYPE useType, Expression booleanExpr) {
             return true;
@@ -864,9 +875,9 @@ public class Analyzer {
 
         /*
          * ExpressionMethodReference:
-         *   Expression ::
-         *     [ < Type { , Type } > ]
-         *     Identifier
+         * Expression ::
+         * [ < Type { , Type } > ]
+         * Identifier
          */
         private boolean visit(ExpressionMethodReference node, USETYPE useType, Expression booleanExpr) {
             return true;
@@ -874,7 +885,7 @@ public class Analyzer {
 
         /*
          * FieldAccess:
-         *     Expression . Identifier
+         * Expression . Identifier
          */
         private boolean visit(FieldAccess node, USETYPE useType, Expression booleanExpr) {
             process(node.getExpression(), useType, booleanExpr);
@@ -883,7 +894,7 @@ public class Analyzer {
             int column = _unit.getColumnNumber(name.getStartPosition());
             Use use = new Use(line, column, node, booleanExpr, useType, _visitedStatement.peek(), _visitedBlock.peek());
             String expr = node.getExpression().toString();
-            if(expr.length() > 0) {
+            if (expr.length() > 0) {
                 use.setIsField(true, node.getExpression().toString());
             } else {
                 use.setIsField(true, "this");
@@ -894,31 +905,31 @@ public class Analyzer {
 
         /*
          * InfixExpression:
-         *   Expression InfixOperator Expression { InfixOperator Expression }
+         * Expression InfixOperator Expression { InfixOperator Expression }
          */
         private boolean visit(InfixExpression node, USETYPE useType, Expression booleanExpr) {
             Expression left = booleanExpr;
             Expression right = booleanExpr;
-//			*    TIMES
-//		    /  DIVIDE
-//		    %  REMAINDER
-//		    +  PLUS
-//		    -  MINUS
-//		    <<  LEFT_SHIFT
-//		    >>  RIGHT_SHIFT_SIGNED
-//		    >>>  RIGHT_SHIFT_UNSIGNED
-//		    <  LESS
-//		    >  GREATER
-//		    <=  LESS_EQUALS
-//		    >=  GREATER_EQUALS
-//		    ==  EQUALS
-//		    !=  NOT_EQUALS
-//		    ^  XOR
-//		    &  AND
-//		    |  OR
-//		    &&  CONDITIONAL_AND
-//		    ||  CONDITIONAL_OR
-            switch(node.getOperator().toString()) {
+            // * TIMES
+            // / DIVIDE
+            // % REMAINDER
+            // + PLUS
+            // - MINUS
+            // << LEFT_SHIFT
+            // >> RIGHT_SHIFT_SIGNED
+            // >>> RIGHT_SHIFT_UNSIGNED
+            // < LESS
+            // > GREATER
+            // <= LESS_EQUALS
+            // >= GREATER_EQUALS
+            // == EQUALS
+            // != NOT_EQUALS
+            // ^ XOR
+            // & AND
+            // | OR
+            // && CONDITIONAL_AND
+            // || CONDITIONAL_OR
+            switch (node.getOperator().toString()) {
                 case "&&":
                 case "||":
                     left = node.getLeftOperand();
@@ -933,7 +944,7 @@ public class Analyzer {
 
         /*
          * InstanceofExpression:
-         *   Expression instanceof Type
+         * Expression instanceof Type
          */
         private boolean visit(InstanceofExpression node, USETYPE useType, Expression booleanExpr) {
             process(node.getLeftOperand(), USETYPE.READ, node);
@@ -942,9 +953,9 @@ public class Analyzer {
 
         /*
          * LambdaExpression:
-         *   Identifier -> Body
-         *   ( [ Identifier { , Identifier } ] ) -> Body
-         *   ( [ FormalParameter { , FormalParameter } ] ) -> Body
+         * Identifier -> Body
+         * ( [ Identifier { , Identifier } ] ) -> Body
+         * ( [ FormalParameter { , FormalParameter } ] ) -> Body
          */
         private boolean visit(LambdaExpression node, USETYPE useType, Expression booleanExpr) {
             return true;
@@ -952,13 +963,13 @@ public class Analyzer {
 
         /*
          * MethodInvocation:
-         *   [ Expression . ]
-         *     [ < Type { , Type } > ]
-         *     Identifier ( [ Expression { , Expression } ] )
+         * [ Expression . ]
+         * [ < Type { , Type } > ]
+         * Identifier ( [ Expression { , Expression } ] )
          */
         private boolean visit(MethodInvocation node, USETYPE useType, Expression booleanExpr) {
             process(node.getExpression(), USETYPE.READ, booleanExpr);
-            for(Object arg : node.arguments()) {
+            for (Object arg : node.arguments()) {
                 process((ASTNode) arg, USETYPE.READ, booleanExpr);
             }
             return true;
@@ -966,10 +977,10 @@ public class Analyzer {
 
         /*
          * MethodReference:
-         *   CreationReference
-         *   ExpressionMethodReference
-         *   SuperMethodReference
-         *   TypeMethodReference
+         * CreationReference
+         * ExpressionMethodReference
+         * SuperMethodReference
+         * TypeMethodReference
          */
         private boolean visit(MethodReference node, USETYPE useType, Expression booleanExpr) {
             return true;
@@ -977,25 +988,28 @@ public class Analyzer {
 
         /*
          * Name:
-         *   SimpleName
-         *   QualifiedName
+         * SimpleName
+         * QualifiedName
          */
         Pattern clazz = Pattern.compile("^[A-Z][A-Za-z_]*");
-        Pattern constant=Pattern.compile("^[A-Z][A-Z_]*");
+        Pattern constant = Pattern.compile("^[A-Z][A-Z_]*");
+
         private boolean visit(Name node, USETYPE useType, Expression booleanExpr) {
             int line = _unit.getLineNumber(node.getStartPosition());
             int column = _unit.getColumnNumber(node.getStartPosition());
-            if(node.resolveTypeBinding() != null && node.resolveTypeBinding().isEnum()) {
-                EnumValue enumValue = new EnumValue(_file, line, column, node.toString(), parseSimpleType(node.getAST(), node.resolveTypeBinding()));
+            if (node.resolveTypeBinding() != null && node.resolveTypeBinding().isEnum()) {
+                EnumValue enumValue = new EnumValue(_file, line, column, node.toString(),
+                        parseSimpleType(node.getAST(), node.resolveTypeBinding()));
                 _visitedBlock.peek().addConstant(enumValue);
 
             } else {
-                if(node instanceof SimpleName) {
+                if (node instanceof SimpleName) {
                     String name = node.getFullyQualifiedName();
                     if (constant.matcher(name).matches() || clazz.matcher(name).matches()) {
                         return true;
                     }
-                    Use use = new Use(line, column, node.getParent(), booleanExpr, useType, _visitedStatement.peek(), _visitedBlock.peek());
+                    Use use = new Use(line, column, node.getParent(), booleanExpr, useType, _visitedStatement.peek(),
+                            _visitedBlock.peek());
                     _visitedBlock.peek().addVariableUse(node.getFullyQualifiedName(), use);
                 } else {
                     QualifiedName qName = (QualifiedName) node;
@@ -1005,7 +1019,8 @@ public class Analyzer {
                         return true;
                     }
                     Name name = qName.getName();
-                    Use use = new Use(line, column, qName, booleanExpr, useType, _visitedStatement.peek(), _visitedBlock.peek());
+                    Use use = new Use(line, column, qName, booleanExpr, useType, _visitedStatement.peek(),
+                            _visitedBlock.peek());
                     _visitedBlock.peek().addVariableUse(name.getFullyQualifiedName(), use);
                     process(qName.getQualifier(), USETYPE.READ, booleanExpr);
                 }
@@ -1030,30 +1045,34 @@ public class Analyzer {
             int radix = 10;
             String tokens = node.getToken();
             String value = tokens.toLowerCase();
-            if(value.startsWith("0x") || tokens.startsWith("-0x")) {
+            if (value.startsWith("0x") || tokens.startsWith("-0x")) {
                 radix = 16;
             }
-            if(typeBinding != null) {
+            if (typeBinding != null) {
                 try {
-                    switch(typeBinding.toString()) {
+                    switch (typeBinding.toString()) {
                         case "int":
-                            constValue = new IntValue(_file, line, column, Integer.valueOf(tokens, radix), genPrimitiveType(node.getAST(), PrimitiveType.INT));
+                            constValue = new IntValue(_file, line, column, Integer.valueOf(tokens, radix),
+                                    genPrimitiveType(node.getAST(), PrimitiveType.INT));
                             break;
                         case "float":
-                            constValue = new FloatValue(_file, line, column, Float.valueOf(tokens), genPrimitiveType(node.getAST(), PrimitiveType.FLOAT));
+                            constValue = new FloatValue(_file, line, column, Float.valueOf(tokens),
+                                    genPrimitiveType(node.getAST(), PrimitiveType.FLOAT));
                             break;
                         case "double":
-                            constValue = new DoubleValue(_file, line, column, Double.valueOf(tokens), genPrimitiveType(node.getAST(), PrimitiveType.DOUBLE));
+                            constValue = new DoubleValue(_file, line, column, Double.valueOf(tokens),
+                                    genPrimitiveType(node.getAST(), PrimitiveType.DOUBLE));
                             break;
                         case "long":
-                            constValue = new LongValue(_file, line, column, Long.valueOf(tokens, radix),  genPrimitiveType(node.getAST(), PrimitiveType.LONG));
+                            constValue = new LongValue(_file, line, column, Long.valueOf(tokens, radix),
+                                    genPrimitiveType(node.getAST(), PrimitiveType.LONG));
                             break;
-                        default :
+                        default:
                     }
                 } catch (Exception e) {
                 }
             }
-            if(constValue != null) {
+            if (constValue != null) {
                 _visitedBlock.peek().addConstant(constValue);
             }
 
@@ -1062,7 +1081,7 @@ public class Analyzer {
 
         /*
          * ParenthesizedExpression:
-         *   ( Expression )
+         * ( Expression )
          */
         private boolean visit(ParenthesizedExpression node, USETYPE useType, Expression booleanExpr) {
             process(node.getExpression(), USETYPE.READ, booleanExpr);
@@ -1071,7 +1090,7 @@ public class Analyzer {
 
         /*
          * PostfixExpression:
-         *   Expression PostfixOperator
+         * Expression PostfixOperator
          */
         private boolean visit(PostfixExpression node, USETYPE useType, Expression booleanExpr) {
             process(node.getOperand(), USETYPE.READ, booleanExpr);
@@ -1080,7 +1099,7 @@ public class Analyzer {
 
         /*
          * PrefixExpression:
-         *   PrefixOperator Expression
+         * PrefixOperator Expression
          */
         private boolean visit(PrefixExpression node, USETYPE useType, Expression booleanExpr) {
             process(node.getOperand(), USETYPE.READ, booleanExpr);
@@ -1093,7 +1112,7 @@ public class Analyzer {
 
         /*
          * SuperFieldAccess:
-         *   [ ClassName . ] super . Identifier
+         * [ ClassName . ] super . Identifier
          */
         private boolean visit(SuperFieldAccess node, USETYPE useType, Expression booleanExpr) {
             // TODO : may be deleted
@@ -1102,7 +1121,7 @@ public class Analyzer {
             int column = _unit.getColumnNumber(name.getStartPosition());
             Use use = new Use(line, column, node, booleanExpr, useType, _visitedStatement.peek(), _visitedBlock.peek());
             Expression expr = node.getQualifier();
-            if(expr != null) {
+            if (expr != null) {
                 use.setIsField(true, expr.toString() + ".super");
             } else {
                 use.setIsField(true, "super");
@@ -1114,13 +1133,13 @@ public class Analyzer {
 
         /*
          * SuperMethodInvocation:
-         *   [ ClassName . ] super .
-         *     [ < Type { , Type } > ]
-         *     Identifier ( [ Expression { , Expression } ] )
+         * [ ClassName . ] super .
+         * [ < Type { , Type } > ]
+         * Identifier ( [ Expression { , Expression } ] )
          */
         private boolean visit(SuperMethodInvocation node, USETYPE useType, Expression booleanExpr) {
             process(node.getQualifier(), Use.USETYPE.READ, booleanExpr);
-            for(Object arg : node.arguments()) {
+            for (Object arg : node.arguments()) {
                 process((ASTNode) arg, USETYPE.READ, booleanExpr);
             }
             return true;
@@ -1128,9 +1147,9 @@ public class Analyzer {
 
         /*
          * SuperMethodReference:
-         *   [ ClassName . ] super ::
-         *     [ < Type { , Type } > ]
-         *     Identifier
+         * [ ClassName . ] super ::
+         * [ < Type { , Type } > ]
+         * Identifier
          */
         private boolean visit(SuperMethodReference node, USETYPE useType, Expression booleanExpr) {
             return true;
@@ -1138,7 +1157,7 @@ public class Analyzer {
 
         /*
          * ThisExpression:
-         *   [ ClassName . ] this
+         * [ ClassName . ] this
          */
         private boolean visit(ThisExpression node, USETYPE useType, Expression booleanExpr) {
             return true;
@@ -1146,7 +1165,7 @@ public class Analyzer {
 
         /*
          * TypeLiteral:
-         *   ( Type | void ) . class
+         * ( Type | void ) . class
          */
         private boolean visit(TypeLiteral node, USETYPE useType, Expression booleanExpr) {
             return true;
@@ -1154,9 +1173,9 @@ public class Analyzer {
 
         /*
          * TypeMethodReference:
-         *   Type ::
-         *     [ < Type { , Type } > ]
-         *     Identifier
+         * Type ::
+         * [ < Type { , Type } > ]
+         * Identifier
          */
         private boolean visit(TypeMethodReference node, USETYPE useType, Expression booleanExpr) {
             return true;
@@ -1164,20 +1183,21 @@ public class Analyzer {
 
         /*
          * VariableDeclarationExpression:
-         *   { ExtendedModifier } Type VariableDeclarationFragment
-         *     { , VariableDeclarationFragment }
+         * { ExtendedModifier } Type VariableDeclarationFragment
+         * { , VariableDeclarationFragment }
          */
         private boolean visit(VariableDeclarationExpression node, USETYPE useType, Expression booleanExpr) {
             Type type = null;
             int modifier = node.getModifiers();
             BasicBlock basicBlock = _visitedBlock.peek();
-            for(Object object : node.fragments()) {
+            for (Object object : node.fragments()) {
                 VariableDeclarationFragment vdf = (VariableDeclarationFragment) object;
                 SimpleName name = vdf.getName();
                 int line = _unit.getLineNumber(name.getStartPosition());
                 int column = _unit.getColumnNumber(name.getStartPosition());
                 type = parseArrayType(node.getType(), vdf.getExtraDimensions());
-                Variable variable = new Variable(_file, line, column, modifier, vdf.getInitializer(), name.getFullyQualifiedName(), type);
+                Variable variable = new Variable(_file, line, column, modifier, vdf.getInitializer(),
+                        name.getFullyQualifiedName(), type);
                 Use use = new Use(line, column, vdf, null, USETYPE.DEFINE, _visitedStatement.peek(), basicBlock);
                 variable.addUse(use);
                 basicBlock.addVariables(variable);
@@ -1188,15 +1208,18 @@ public class Analyzer {
 
         /*
          * SingleVariableDeclaration:
-         *   { ExtendedModifier } Type {Annotation} [ ... ] Identifier { Dimension } [ = Expression ]
+         * { ExtendedModifier } Type {Annotation} [ ... ] Identifier { Dimension } [ =
+         * Expression ]
          */
         private boolean visit(SingleVariableDeclaration node, USETYPE useType, Expression booleanExpr) {
             Type type = parseArrayType(node.getType(), node.getExtraDimensions());
             Name name = node.getName();
             int line = _unit.getLineNumber(name.getStartPosition());
             int column = _unit.getColumnNumber(name.getStartPosition());
-            Variable variable = new Variable(_file, line, column, node.getModifiers(), node.getInitializer(), name.getFullyQualifiedName(), type);
-            Use use = new Use(line, column, node, booleanExpr, USETYPE.DEFINE, _visitedStatement.peek(), _visitedBlock.peek());
+            Variable variable = new Variable(_file, line, column, node.getModifiers(), node.getInitializer(),
+                    name.getFullyQualifiedName(), type);
+            Use use = new Use(line, column, node, booleanExpr, USETYPE.DEFINE, _visitedStatement.peek(),
+                    _visitedBlock.peek());
             variable.addUse(use);
             _visitedBlock.peek().addVariables(variable);
             process(node.getInitializer(), USETYPE.READ, booleanExpr);
@@ -1207,7 +1230,8 @@ public class Analyzer {
          * dispatch method
          */
         private boolean process(ASTNode node, USETYPE varUsetype, Expression booleanExpr) {
-            if(node == null) return true;
+            if (node == null)
+                return true;
             if (node instanceof TypeDeclaration) {
                 return visit((TypeDeclaration) node, varUsetype, booleanExpr);
             } else if (node instanceof EnumDeclaration) {
@@ -1337,11 +1361,12 @@ public class Analyzer {
         }
 
         private Type parseArrayType(Type type, int extra) {
-            if(extra > 0) {
+            if (extra > 0) {
                 AST ast = type.getAST();
-                if(type.isArrayType()) {
+                if (type.isArrayType()) {
                     ArrayType arrayType = (ArrayType) type;
-                    return ast.newArrayType((Type) ASTNode.copySubtree(ast, arrayType.getElementType()), arrayType.getDimensions() + extra);
+                    return ast.newArrayType((Type) ASTNode.copySubtree(ast, arrayType.getElementType()),
+                            arrayType.getDimensions() + extra);
                 } else {
                     return ast.newArrayType((Type) ASTNode.copySubtree(ast, type), extra);
                 }
@@ -1351,7 +1376,7 @@ public class Analyzer {
         }
 
         private Type parseSimpleType(AST ast, ITypeBinding typeBinding) {
-            if(typeBinding == null) {
+            if (typeBinding == null) {
                 return ast.newWildcardType();
             } else {
                 try {

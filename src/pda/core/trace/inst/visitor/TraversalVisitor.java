@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * Traverse a {@code CompilationUnit}
  * 
- * @author Jiajun
+ * @author
  *
  */
 public abstract class TraversalVisitor extends ASTVisitor {
@@ -53,14 +53,15 @@ public abstract class TraversalVisitor extends ASTVisitor {
 	@Override
 	public boolean visit(CompilationUnit node) {
 		_cu = node;
-//		// jdt bug : when parse package with reserved keywords
-//		if(node.getPackage() == null) {
-//			AST ast = AST.newAST(Constant.AST_LEVEL);
-//			PackageDeclaration packageDeclaration = ast.newPackageDeclaration();
-//			// for lang project
-//			packageDeclaration.setName(ast.newName("org.apache.commons.lang.enum"));
-//			node.setPackage((PackageDeclaration) ASTNode.copySubtree(node.getAST(), packageDeclaration));
-//		}
+		// // jdt bug : when parse package with reserved keywords
+		// if(node.getPackage() == null) {
+		// AST ast = AST.newAST(Constant.AST_LEVEL);
+		// PackageDeclaration packageDeclaration = ast.newPackageDeclaration();
+		// // for lang project
+		// packageDeclaration.setName(ast.newName("org.apache.commons.lang.enum"));
+		// node.setPackage((PackageDeclaration) ASTNode.copySubtree(node.getAST(),
+		// packageDeclaration));
+		// }
 		if (node.getPackage().getName() != null
 				&& node.getPackage().getName().getFullyQualifiedName().equals("auxiliary")) {
 			return false;
@@ -114,15 +115,15 @@ public abstract class TraversalVisitor extends ASTVisitor {
 	 * method in test classes, e.g., {@code setUp}. otherwise, return false;
 	 * 
 	 * @param node
-	 *            : {@code MethodDeclaration}
+	 *                 : {@code MethodDeclaration}
 	 * @param methodID
-	 *            : method id of the {@code MethodDeclaration}
+	 *                 : method id of the {@code MethodDeclaration}
 	 * @return
 	 */
 	protected boolean shouldSkip(MethodDeclaration node, int methodID) {
 
 		if (_methods != null) {
-			if(!_methods.contains(methodID)){
+			if (!_methods.contains(methodID)) {
 				return true;
 			}
 		}
@@ -155,7 +156,7 @@ public abstract class TraversalVisitor extends ASTVisitor {
 	 * build full class information based on the given method declaration
 	 * 
 	 * @param node
-	 *            : {@code MethodDeclaration}
+	 *             : {@code MethodDeclaration}
 	 * @return full class name for the method declaration, e.g.,
 	 *         "package.Clazz$InnerClazz"
 	 */
@@ -175,10 +176,10 @@ public abstract class TraversalVisitor extends ASTVisitor {
 			if (!_clazzName.endsWith(parentName)) {
 				currentClassName = _clazzName + "$" + parentName;
 			}
-		} else if(parent != null && parent instanceof EnumDeclaration) {
+		} else if (parent != null && parent instanceof EnumDeclaration) {
 			EnumDeclaration enumDeclaration = (EnumDeclaration) parent;
 			String enumName = enumDeclaration.getName().getFullyQualifiedName();
-			if(!_clazzName.endsWith(enumName)) {
+			if (!_clazzName.endsWith(enumName)) {
 				currentClassName = _clazzName + "$" + enumName;
 			}
 		}
@@ -189,7 +190,7 @@ public abstract class TraversalVisitor extends ASTVisitor {
 	 * build string representation for the given method declaration
 	 * 
 	 * @param node
-	 *            : {@code MethodDeclaration}
+	 *             : {@code MethodDeclaration}
 	 * @return a string represent the method
 	 */
 	protected String buildMethodInfoString(MethodDeclaration node) {

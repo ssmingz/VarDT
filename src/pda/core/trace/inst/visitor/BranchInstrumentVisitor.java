@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -19,7 +19,7 @@ import java.util.Set;
  * which will generate reverse condition for the original IfStatement
  * even if it does not as an 'Else' branch.
  * 
- * @author Jiajun
+ * @author
  *
  */
 public class BranchInstrumentVisitor extends TraversalVisitor {
@@ -59,41 +59,44 @@ public class BranchInstrumentVisitor extends TraversalVisitor {
 
 		return true;
 	}
-	
+
 	static class BranchInstrumenter extends ASTVisitor {
 		private String message = null;
 		private CompilationUnit unit = null;
+
 		public BranchInstrumenter(String message, CompilationUnit unit) {
 			this.message = message;
 			this.unit = unit;
 		}
-		
+
 		@Override
 		public boolean visit(IfStatement node) {
 			Expression expression = node.getExpression();
 			int line = unit.getLineNumber(expression.getStartPosition());
 			String condition = expression.toString();
-			
+
 			ASTNode inserted = GenStatement.genWriter(message + "#" + line + "#" + condition + "#1#1");
-			node.setThenStatement((Statement) ASTNode.copySubtree(node.getAST(), wrapAndInstert(node.getThenStatement(), inserted)));
+			node.setThenStatement(
+					(Statement) ASTNode.copySubtree(node.getAST(), wrapAndInstert(node.getThenStatement(), inserted)));
 			condition = "!(" + condition + ")";
 			inserted = GenStatement.genWriter(message + "#" + line + "#" + condition + "#1#2");
-			node.setElseStatement((Statement) ASTNode.copySubtree(node.getAST(), wrapAndInstert(node.getElseStatement(), inserted)));
+			node.setElseStatement(
+					(Statement) ASTNode.copySubtree(node.getAST(), wrapAndInstert(node.getElseStatement(), inserted)));
 			return true;
 		}
-		
+
 		/**
 		 *
-		 * @param node : original node
-		 * @param inserted : to be inserted at the first index of the returned block 
+		 * @param node     : original node
+		 * @param inserted : to be inserted at the first index of the returned block
 		 * @return
 		 */
 		private Block wrapAndInstert(ASTNode node, ASTNode inserted) {
 			Block block = null;
 			AST ast = AST.newAST(Constant.AST_LEVEL);
-			if(node == null) {
+			if (node == null) {
 				block = ast.newBlock();
-			} else if(node instanceof Block) {
+			} else if (node instanceof Block) {
 				block = (Block) node;
 			} else {
 				block = ast.newBlock();

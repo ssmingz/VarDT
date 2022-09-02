@@ -1,8 +1,8 @@
 /**
- * Copyright (C) SEI, PKU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
- * Written by Jiajun Jiang<jiajun.jiang@pku.edu.cn>.
+ * Written by  .
  */
 
 package pda.common.conf;
@@ -28,15 +28,14 @@ public class Configure {
 	public static boolean compileAuxiliaryJava(Subject subject) {
 		JCompiler compiler = JCompiler.getInstance();
 		File file = new File(Utils.join(subject.getHome(), subject.getSbin()));
-		if(!file.exists()) {
+		if (!file.exists()) {
 			file.mkdirs();
 		}
 		return compiler.compile(subject, "auxiliary/Dumper.java", auxiliaryString);
 	}
 
-	
 	public static void config_astlevel(Subject subject) {
-		if(subject.getName().equals("lang") && subject.getId() >= 42) {
+		if (subject.getName().equals("lang") && subject.getId() >= 42) {
 			Constant.AST_LEVEL = AST.JLS3;
 			Constant.JAVA_VERSION = JavaCore.VERSION_1_4;
 		} else {
@@ -50,7 +49,7 @@ public class Configure {
 	 * instrument running correctly
 	 * 
 	 * @param subject
-	 *            : current subject
+	 *                : current subject
 	 */
 	public static void config_dumper(Subject subject) {
 		File file = new File(Constant.HOME + "/resources/auxiliary/Dumper.java");
@@ -91,7 +90,7 @@ public class Configure {
 /**
  * configure some properties in the dumper file
  * 
- * @author Jiajun
+ * @author
  *
  */
 class ConfigDumperVisitor extends ASTVisitor {

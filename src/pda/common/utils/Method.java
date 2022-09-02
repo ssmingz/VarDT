@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author: 
+ * @author:
  * @date: 2021/11/2
  */
 public class Method {
@@ -64,7 +64,9 @@ public class Method {
         _clazz = clazz;
     }
 
-    public String getClazz() { return _clazz; }
+    public String getClazz() {
+        return _clazz;
+    }
 
     public String getRetType() {
         return _retType;
@@ -93,7 +95,7 @@ public class Method {
 
     @Override
     public String toString() {
-        return  _retType + " " + _name + _argTypes.toString();
+        return _retType + " " + _name + _argTypes.toString();
     }
 
     public static Method parse(String string) {
@@ -107,7 +109,7 @@ public class Method {
         String retType = "null".equals(info[1].trim()) ? null : info[1].trim();
         List<String> args = new LinkedList<>();
         String[] arguments = info[3].split(",");
-        for (int i = 1; i < arguments.length; i++)  {
+        for (int i = 1; i < arguments.length; i++) {
             args.add(arguments[i].trim());
         }
         return new Method(clazz, retType, name, args);

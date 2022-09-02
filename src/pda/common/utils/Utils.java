@@ -1,12 +1,11 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
  */
 
 package pda.common.utils;
-
 
 import org.apache.commons.io.FileUtils;
 import pda.common.conf.Constant;
@@ -18,16 +17,16 @@ import java.util.*;
 import java.util.concurrent.*;
 
 /**
- * @author: 
+ * @author:
  * @date: 2021/11/2
  */
 public class Utils {
 
-    public static void pathGuarantee(String ... paths) {
+    public static void pathGuarantee(String... paths) {
         File file = null;
-        for(String string : paths) {
+        for (String string : paths) {
             file = new File(string);
-            if(!file.exists()) {
+            if (!file.exists()) {
                 file.mkdirs();
             }
         }
@@ -139,12 +138,14 @@ public class Utils {
     public static boolean copyDir(String src, String tar) {
         return copyDir(new File(src), new File(tar));
     }
+
     public static boolean copyFile(String src, String tar) {
         return copyFile(new File(src), new File(tar));
     }
 
     public static boolean safeCollectionEqual(Set<String> c1, Set<String> c2) {
-        if (c1 == c2) return true;
+        if (c1 == c2)
+            return true;
         if (c1 == null || c2 == null) {
             return false;
         }
@@ -161,14 +162,18 @@ public class Utils {
     }
 
     public static boolean safeBufferEqual(StringBuffer s1, StringBuffer s2) {
-        if (s1 == s2) return true;
-        if (s1 == null || s2 == null) return false;
+        if (s1 == s2)
+            return true;
+        if (s1 == null || s2 == null)
+            return false;
         return s1.toString().equals(s2.toString());
     }
 
     public static boolean safeStringEqual(String s1, String s2) {
-        if(s1 == s2) return true;
-        if(s1 == null) return false;
+        if (s1 == s2)
+            return true;
+        if (s1 == null)
+            return false;
         return s1.equals(s2);
     }
 
@@ -180,7 +185,7 @@ public class Utils {
         return join(delimiter, Arrays.asList(element));
     }
 
-    public static String join(char delimiter, List<String> elements){
+    public static String join(char delimiter, List<String> elements) {
         return join(delimiter + "", elements);
     }
 
@@ -227,7 +232,8 @@ public class Utils {
     }
 
     /**
-     * @see List<File> ergodic(File file, List<File> fileList, String srcFilePostfix)
+     * @see List<File> ergodic(File file, List<File> fileList, String
+     *      srcFilePostfix)
      */
     public static List<File> ergodic(File file, List<File> fileList) {
         return ergodic(file, fileList, ".java");
@@ -237,16 +243,16 @@ public class Utils {
      * iteratively search files with the root as {@code file}
      *
      * @param file
-     *            : root file of type {@code File}
+     *                       : root file of type {@code File}
      * @param fileList
-     *            : list to save all the files
+     *                       : list to save all the files
      * @param srcFilePostfix
-     *            : postfix of file names
+     *                       : postfix of file names
      * @return : a list of all files
      */
     public static List<File> ergodic(File file, List<File> fileList, String srcFilePostfix) {
         if (file == null) {
-            LevelLogger.error( "#ergodic Illegal input file : null.");
+            LevelLogger.error("#ergodic Illegal input file : null.");
             return fileList;
         }
         File[] files = file.listFiles();
@@ -274,7 +280,8 @@ public class Utils {
         if (files == null)
             return fileList;
         for (File f : files) {
-            if(ignoreSet.contains(f.getName())) continue;
+            if (ignoreSet.contains(f.getName()))
+                continue;
             if (f.isDirectory()) {
                 ergodic(f, fileList, ignoreSet, srcFilePostfix);
             } else if (f.getName().endsWith(srcFilePostfix))
@@ -284,7 +291,8 @@ public class Utils {
     }
 
     /**
-     * @see List<String> ergodic(String directory, List<String> fileList, String srcFilePostfix)
+     * @see List<String> ergodic(String directory, List<String> fileList, String
+     *      srcFilePostfix)
      */
     public static List<String> ergodic(String directory, List<String> fileList) {
         return ergodic(directory, fileList, ".java");
@@ -294,9 +302,9 @@ public class Utils {
      * iteratively search the file in the given {@code directory}
      *
      * @param directory
-     *            : root directory
+     *                  : root directory
      * @param fileList
-     *            : list of file
+     *                  : list of file
      * @return : a list of file
      */
     public static List<String> ergodic(String directory, List<String> fileList, String srcFilePostfix) {
@@ -359,17 +367,18 @@ public class Utils {
         }
     }
 
-    public static void backupFailedTestsAndCoveredMethod(Subject subject, int totalTestNumber, Set<Integer> failedTest, Set<Integer> coveredMethod) {
+    public static void backupFailedTestsAndCoveredMethod(Subject subject, int totalTestNumber, Set<Integer> failedTest,
+            Set<Integer> coveredMethod) {
         LevelLogger.info("Start to backup failed tests & covered statement...");
         StringBuffer buffer = new StringBuffer(totalTestNumber + ":" + failedTest.size());
-        for(Integer integer : failedTest) {
+        for (Integer integer : failedTest) {
             buffer.append("\n" + integer);
         }
         String fileName = Utils.join(subject.getOutBase(), "failedTest.txt");
         JavaFile.writeStringToFile(fileName, buffer.toString());
 
         buffer = new StringBuffer();
-        for(Integer string : coveredMethod) {
+        for (Integer string : coveredMethod) {
             buffer.append(string + "\n");
         }
         fileName = Utils.join(subject.getOutBase(), "coveredMethods.txt");
@@ -377,33 +386,35 @@ public class Utils {
         LevelLogger.info("Finish to backup failed tests & covered statement...");
     }
 
-    public static boolean recoverFailedTestsAndCoveredMethod(Subject subject, Set<Integer> failedTests, Set<Integer> allCoveredMethod) {
+    public static boolean recoverFailedTestsAndCoveredMethod(Subject subject, Set<Integer> failedTests,
+            Set<Integer> allCoveredMethod) {
         LevelLogger.info("Start to recover failed tests & covered statement...");
         String fileName = Utils.join(subject.getOutBase(), "failedTest.txt");
         List<String> content = JavaFile.readFileToStringList(fileName);
         boolean containIllegal = false;
         int totalNumberOfTests = -1;
         int failedTestsNumber = -1;
-        if(content.size() > 0) {
+        if (content.size() > 0) {
             String numbers = content.get(0);
             try {
                 totalNumberOfTests = Integer.parseInt(numbers.split(":")[0]);
                 failedTestsNumber = Integer.parseInt(numbers.split(":")[1]);
-            } catch (Exception e) {}
-            for(int index = 1; index < content.size(); index ++) {
+            } catch (Exception e) {
+            }
+            for (int index = 1; index < content.size(); index++) {
                 Integer id = -1;
                 try {
                     id = Integer.parseInt(content.get(index));
                 } catch (Exception e) {
                 }
-                if(!Identifier.containKey(id)) {
+                if (!Identifier.containKey(id)) {
                     containIllegal = true;
                     break;
                 }
                 failedTests.add(id);
             }
         }
-        if(containIllegal || failedTests.size() != failedTestsNumber) {
+        if (containIllegal || failedTests.size() != failedTestsNumber) {
             JavaFile.writeStringToFile(fileName, "");
             return false;
         }
@@ -412,9 +423,9 @@ public class Utils {
         List<String> coveredMethods = JavaFile.readFileToStringList(fileName);
         containIllegal = false;
         try {
-            for(String string : coveredMethods) {
+            for (String string : coveredMethods) {
                 Integer integer = Integer.parseInt(string);
-                if(!Identifier.containKey(integer)) {
+                if (!Identifier.containKey(integer)) {
                     containIllegal = true;
                     break;
                 }
@@ -423,7 +434,7 @@ public class Utils {
         } catch (Exception e) {
         }
 
-        if(containIllegal) {
+        if (containIllegal) {
             JavaFile.writeStringToFile(fileName, "");
             return false;
         }

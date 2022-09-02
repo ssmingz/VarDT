@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -25,7 +25,7 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author: 
+ * @author:
  * @date: 2021/11/16
  */
 public class Tracer {
@@ -75,7 +75,7 @@ public class Tracer {
     }
 
     public void trace(String outPath) {
-//        _subject.restoreSource();
+        // _subject.restoreSource();
 
         List<File> srcFiles = buildFiles(Utils.join(_subject.getHome(), _subject.getSsrc()), _instMethods);
         List<File> testFiles = buildFiles(Utils.join(_subject.getHome(), _subject.getTsrc()), _testcases);
@@ -86,7 +86,8 @@ public class Tracer {
         LevelLogger.debug("Finish to instrument.");
 
         LevelLogger.debug("Start to instrument test code...");
-        TraceTestMethodInstrumentVisitor newTestMethodInstrumentVisitor = new TraceTestMethodInstrumentVisitor(_testcases);
+        TraceTestMethodInstrumentVisitor newTestMethodInstrumentVisitor = new TraceTestMethodInstrumentVisitor(
+                _testcases);
         Instrument.execute(newTestMethodInstrumentVisitor, testFiles);
         LevelLogger.debug("Start to instrument.");
 
@@ -96,7 +97,8 @@ public class Tracer {
 
         for (Integer methodID : _testcases) {
             Method testcase = Method.parse(Identifier.getMessage(methodID));
-            if (testcase == null) continue;
+            if (testcase == null)
+                continue;
             String singleTest = testcase.getClazz() + "::" + testcase.getName();
             boolean success = Runner.testSingleCase(_subject, singleTest);
             if (!success) {

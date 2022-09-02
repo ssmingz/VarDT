@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author: 
+ * @author:
  * @date: 2021/11/2
  */
 public class Subject {
@@ -45,6 +45,7 @@ public class Subject {
     protected Subject(String base, String name) {
         this(base, name, null, null, null, null);
     }
+
     /**
      * subject
      *
@@ -60,7 +61,7 @@ public class Subject {
     }
 
     private Subject(String base, String name, String ssrc, String tsrc, String sbin, String tbin,
-                  SOURCE_LEVEL sourceLevel, List<String> classpath) {
+            SOURCE_LEVEL sourceLevel, List<String> classpath) {
         _base = base + "/";
         _name = name;
         _ssrc = ssrc;
@@ -154,11 +155,11 @@ public class Subject {
 
     public boolean checkAndInitDir() {
         File file = new File(Utils.join(getHome(), getSbin()));
-        if(!file.exists()) {
+        if (!file.exists()) {
             file.mkdirs();
         }
         file = new File(Utils.join(getHome(), getTbin()));
-        if(!file.exists()) {
+        if (!file.exists()) {
             file.mkdirs();
         }
         return true;
@@ -180,13 +181,19 @@ public class Subject {
         private String value;
 
         public static SOURCE_LEVEL toSourceLevel(String string) {
-            if (string == null) return L_1_7;
+            if (string == null)
+                return L_1_7;
             switch (string) {
-                case "1.4": return L_1_4;
-                case "1.5": return L_1_5;
-                case "1.6": return L_1_5;
-                case "1.7": return L_1_5;
-                case "1.8": return L_1_8;
+                case "1.4":
+                    return L_1_4;
+                case "1.5":
+                    return L_1_5;
+                case "1.6":
+                    return L_1_5;
+                case "1.7":
+                    return L_1_5;
+                case "1.8":
+                    return L_1_8;
             }
             return L_1_7;
         }

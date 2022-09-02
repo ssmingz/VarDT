@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
 public class Dumper {
 
 	public static boolean SUCC_TEST = false;
@@ -30,10 +29,11 @@ public class Dumper {
 	private static Set alreadyRun = new HashSet();
 	private static Set alreadyObserved = new HashSet();
 	private static List coverages = new ArrayList();
-	private static String operators[] = {"<=", ">=", "==", "!=", "<", ">"};
+	private static String operators[] = { "<=", ">=", "==", "!=", "<", ">" };
 
 	private static final long MAX_OUTPUT_FILE_SIZE = 5; // max file size in GB
-//	private static final String OUT_AND_LIB_PATH = "/home/jiajun/code/space/StateCoverLocator";
+	// private static final String OUT_AND_LIB_PATH =
+	// "/home//code/space/StateCoverLocator";
 	private static final String OUT_AND_LIB_PATH = "/home/lillian/git/StateCoverLocator";
 	private static final String OUT_FILE_NAME = OUT_AND_LIB_PATH + "/out/path.out";
 	private static final String TRACE_FILE_NAME = OUT_AND_LIB_PATH + "/out/trace.out";
@@ -51,7 +51,7 @@ public class Dumper {
 		coverages = new ArrayList();
 		readTrueOrFalse();
 	}
-	
+
 	public static boolean observe(String stmt) {
 		if (!alreadyObserved.contains(stmt)) {
 			alreadyObserved.add(stmt);
@@ -74,7 +74,7 @@ public class Dumper {
 		trace.add("---------" + TEST_ID + "---------");
 		return true;
 	}
-	
+
 	public static boolean write(String stmt) {
 		if (TEST_ID >= 0) {
 			trace.add(stmt);
@@ -98,7 +98,7 @@ public class Dumper {
 		}
 		return true;
 	}
-	
+
 	public static boolean slowWrite(String stmt) {
 		if (!alreadyRun.contains(stmt)) {
 			alreadyRun.add(stmt);
@@ -106,7 +106,7 @@ public class Dumper {
 			statements = new ArrayList();
 			coverage = new ArrayList();
 			read();
-			
+
 			int index = statements.indexOf(stmt);
 			if (index >= 0) {
 				Record record = (Record) coverage.get(index);
@@ -121,22 +121,22 @@ public class Dumper {
 		}
 		return true;
 	}
-	
+
 	public static boolean writeTrue(String stmt) {
 		return writeTrueOrFalse(stmt, true);
 	}
-	
+
 	public static boolean writeFalse(String stmt) {
 		return writeTrueOrFalse(stmt, false);
 	}
-	
+
 	private static boolean writeTrueOrFalse(String stmt, boolean isTrue) {
 		if (!alreadyRun.contains(stmt)) { // Does not run in this execution
 			alreadyRun.add(stmt);
 			int index = statements.indexOf(stmt);
 			ArrayList records = null;
 			if (index >= 0) {
-				records = (ArrayList)coverages.get(index);
+				records = (ArrayList) coverages.get(index);
 			} else {
 				statements.add(stmt);
 				records = new ArrayList();
@@ -155,7 +155,7 @@ public class Dumper {
 		}
 		return true;
 	}
-	
+
 	public static boolean dumpTrueOrFalse() {
 		File file = new File(OUT_FILE_NAME);
 		if (!file.exists()) {
@@ -178,7 +178,7 @@ public class Dumper {
 				bufferedWriter.write((String) statements.get(i));
 				bufferedWriter.write("\n");
 				List others = (List) coverages.get(i);
-				for(int j = 0; j < others.size(); j++) {
+				for (int j = 0; j < others.size(); j++) {
 					PredicateRecord r = (PredicateRecord) others.get(j);
 					bufferedWriter.write(r.getValue());
 					bufferedWriter.write("\n");
@@ -200,7 +200,7 @@ public class Dumper {
 		return true;
 	}
 
-	public static boolean dumpTrace(){
+	public static boolean dumpTrace() {
 		if (trace.isEmpty()) {
 			return true;
 		}
@@ -240,7 +240,7 @@ public class Dumper {
 		trace.clear();
 		return true;
 	}
-	
+
 	public static boolean dump() {
 		File file = new File(OUT_FILE_NAME);
 		if (!file.exists()) {
@@ -280,7 +280,7 @@ public class Dumper {
 		}
 		return true;
 	}
-	
+
 	// logConditionCoverage, lcc for short
 	public static boolean lcc(boolean condition, String trueLogInfo, String falseLogInfo) {
 		observe(trueLogInfo);
@@ -292,16 +292,16 @@ public class Dumper {
 		}
 		return condition;
 	}
-	
+
 	public static boolean logConditionCoverageWithEvaluationBias(boolean condition, String message) {
-		if(condition){
+		if (condition) {
 			writeTrue(message);
 		} else {
 			writeFalse(message);
 		}
 		return condition;
 	}
-	
+
 	private static void logCoverage(boolean condition, String message, boolean useSober) {
 		if (useSober) {
 			if (condition) {
@@ -316,45 +316,47 @@ public class Dumper {
 			}
 		}
 	}
-	
+
 	public static Double lpc(final double a, double b, String message, String var1, String var2, boolean useSober) {
-		return (Double)lpccommon(Double.valueOf(a), Double.valueOf(b), message, var1, var2, useSober);
+		return (Double) lpccommon(Double.valueOf(a), Double.valueOf(b), message, var1, var2, useSober);
 	}
-	
+
 	public static Integer lpc(final int a, int b, String message, String var1, String var2, boolean useSober) {
-		return (Integer)lpccommon(Integer.valueOf(a), Integer.valueOf(b), message, var1, var2, useSober);
+		return (Integer) lpccommon(Integer.valueOf(a), Integer.valueOf(b), message, var1, var2, useSober);
 	}
-	
+
 	public static Float lpc(final float a, float b, String message, String var1, String var2, boolean useSober) {
-		return (Float)lpccommon(Float.valueOf(a), Float.valueOf(b), message, var1, var2, useSober);
+		return (Float) lpccommon(Float.valueOf(a), Float.valueOf(b), message, var1, var2, useSober);
 	}
+
 	public static Byte lpc(final byte a, byte b, String message, String var1, String var2, boolean useSober) {
-		return (Byte)lpccommon(Byte.valueOf(a), Byte.valueOf(b), message, var1, var2, useSober);
+		return (Byte) lpccommon(Byte.valueOf(a), Byte.valueOf(b), message, var1, var2, useSober);
 	}
-	
+
 	public static Character lpc(final char a, char b, String message, String var1, String var2, boolean useSober) {
-		return (Character)lpccommon(Character.valueOf(a), Character.valueOf(b), message, var1, var2, useSober);
+		return (Character) lpccommon(Character.valueOf(a), Character.valueOf(b), message, var1, var2, useSober);
 	}
-	
+
 	public static Long lpc(final long a, long b, String message, String var1, String var2, boolean useSober) {
-		return (Long)lpccommon(Long.valueOf(a), Long.valueOf(b), message, var1, var2, useSober);
+		return (Long) lpccommon(Long.valueOf(a), Long.valueOf(b), message, var1, var2, useSober);
 	}
-	
+
 	public static Short lpc(final short a, short b, String message, String var1, String var2, boolean useSober) {
-		return (Short)lpccommon(Short.valueOf(a), Short.valueOf(b), message, var1, var2, useSober);
+		return (Short) lpccommon(Short.valueOf(a), Short.valueOf(b), message, var1, var2, useSober);
 	}
-	
+
 	public static Object lpcNull(final Object a, String message, String var, boolean useSober) {
 		logCoverage(a == null, message + "#" + var + "==null#1", useSober);
 		return a;
 	}
-	
+
 	// logPairCoverage, lpc for short to shorten function
-	public static Object lpccommon(final Object a, Object b, String message, String var1, String var2, boolean useSober) {
+	public static Object lpccommon(final Object a, Object b, String message, String var1, String var2,
+			boolean useSober) {
 		Comparable ac = (Comparable) a;
 		Comparable bc = (Comparable) b;
 		int cmp = ac.compareTo(bc);
-		for(int i = 0; i < operators.length; i++) {
+		for (int i = 0; i < operators.length; i++) {
 			String op = operators[i];
 			String finalMessage = message + "#" + var1 + op + var2 + "#1";
 			boolean condition = false;
@@ -375,56 +377,60 @@ public class Dumper {
 		}
 		return a;
 	}
-	
+
 	public static Integer lpcs(final int a, int[] vars, String message, String name, String[] names, boolean useSober) {
-		for(int i = 0; i < vars.length; i++) {
+		for (int i = 0; i < vars.length; i++) {
 			Dumper.lpc(a, vars[i], message, name, names[i], useSober);
 		}
 		return Integer.valueOf(a);
 	}
-	
-	public static Float lpcs(final float a, float[] vars, String message, String name, String[] names, boolean useSober) {
-		for(int i = 0; i < vars.length; i++) {
+
+	public static Float lpcs(final float a, float[] vars, String message, String name, String[] names,
+			boolean useSober) {
+		for (int i = 0; i < vars.length; i++) {
 			Dumper.lpc(a, vars[i], message, name, names[i], useSober);
 		}
 		return Float.valueOf(a);
 	}
-	
-	public static Double lpcs(final double a, double[] vars, String message, String name, String[] names, boolean useSober) {
-		for(int i = 0; i < vars.length; i++) {
+
+	public static Double lpcs(final double a, double[] vars, String message, String name, String[] names,
+			boolean useSober) {
+		for (int i = 0; i < vars.length; i++) {
 			Dumper.lpc(a, vars[i], message, name, names[i], useSober);
 		}
 		return Double.valueOf(a);
 	}
-	
+
 	public static Long lpcs(final long a, long[] vars, String message, String name, String[] names, boolean useSober) {
-		for(int i = 0; i < vars.length; i++) {
+		for (int i = 0; i < vars.length; i++) {
 			Dumper.lpc(a, vars[i], message, name, names[i], useSober);
 		}
 		return Long.valueOf(a);
 	}
-	
-	public static Character lpcs(final char a, char[] vars, String message, String name, String[] names, boolean useSober) {
-		for(int i = 0; i < vars.length; i++) {
+
+	public static Character lpcs(final char a, char[] vars, String message, String name, String[] names,
+			boolean useSober) {
+		for (int i = 0; i < vars.length; i++) {
 			Dumper.lpc(a, vars[i], message, name, names[i], useSober);
 		}
 		return Character.valueOf(a);
 	}
-	
-	public static Short lpcs(final short a, short[] vars, String message, String name, String[] names, boolean useSober) {
-		for(int i = 0; i < vars.length; i++) {
+
+	public static Short lpcs(final short a, short[] vars, String message, String name, String[] names,
+			boolean useSober) {
+		for (int i = 0; i < vars.length; i++) {
 			Dumper.lpc(a, vars[i], message, name, names[i], useSober);
 		}
 		return Short.valueOf(a);
 	}
-	
+
 	public static Byte lpcs(final byte a, byte[] vars, String message, String name, String[] names, boolean useSober) {
-		for(int i = 0; i < vars.length; i++) {
+		for (int i = 0; i < vars.length; i++) {
 			Dumper.lpc(a, vars[i], message, name, names[i], useSober);
 		}
 		return Byte.valueOf(a);
 	}
-	
+
 	private static boolean readTrueOrFalse() {
 		File file = new File(OUT_FILE_NAME);
 		if (!file.exists()) {
@@ -498,7 +504,7 @@ public class Dumper {
 				}
 				statements.add(strings[0]);
 				coverage.add(new Record(Integer.parseInt(strings[1]), Integer.parseInt(strings[2]),
-					Integer.parseInt(strings[3]), Integer.parseInt(strings[4])));
+						Integer.parseInt(strings[3]), Integer.parseInt(strings[4])));
 			}
 
 			bufferedReader.close();
@@ -523,14 +529,14 @@ class Record {
 	private int fail = 0;
 	private int passObserved = 0;
 	private int failObserved = 0;
-	
+
 	public Record(int f, int p, int fo, int po) {
 		fail = f;
 		pass = p;
 		failObserved = fo;
 		passObserved = po;
 	}
-	
+
 	public void inc(boolean passTest) {
 		if (passTest) {
 			pass++;
@@ -538,7 +544,7 @@ class Record {
 			fail++;
 		}
 	}
-	
+
 	public void incObserved(boolean passTest) {
 		if (passTest) {
 			passObserved++;
@@ -564,13 +570,13 @@ class PredicateRecord {
 	private int trueCnt = 0;
 	private int falseCnt = 0;
 	private boolean pass = false;
-	
+
 	public PredicateRecord(int t, int f, boolean pass) {
 		trueCnt = t;
 		falseCnt = f;
 		this.pass = pass;
 	}
-	
+
 	public void inc(boolean isTrue) {
 		if (isTrue) {
 			trueCnt++;
@@ -578,7 +584,7 @@ class PredicateRecord {
 			falseCnt++;
 		}
 	}
-	
+
 	public String getValue() {
 		String passStr = pass ? "1" : "0";
 		return trueCnt + "\t" + falseCnt + "\t" + passStr;
@@ -588,19 +594,19 @@ class PredicateRecord {
 class PredicateSignature {
 	private boolean condition = false;
 	private String signature = "";
-	
+
 	public boolean getCondition() {
 		return condition;
 	}
-	
+
 	public void setCondition(boolean cond) {
 		condition = cond;
 	}
-	
+
 	public String getSignature() {
 		return signature;
 	}
-	
+
 	public void setSignature(String sig) {
 		signature = sig;
 	}

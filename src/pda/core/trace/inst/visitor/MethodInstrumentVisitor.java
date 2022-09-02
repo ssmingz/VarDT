@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -20,7 +20,7 @@ import java.util.Set;
  * This class is used for instrument for each method, only one print statement
  * for each method
  * 
- * @author Jiajun
+ * @author
  *
  */
 public class MethodInstrumentVisitor extends TraversalVisitor {
@@ -73,7 +73,8 @@ public class MethodInstrumentVisitor extends TraversalVisitor {
 			}
 
 			// optimize instrument
-//			message = Constant.INSTRUMENT_FLAG + _methodFlag + Constant.INSTRUMENT_STR_SEP + String.valueOf(keyValue);
+			// message = Constant.INSTRUMENT_FLAG + _methodFlag +
+			// Constant.INSTRUMENT_STR_SEP + String.valueOf(keyValue);
 			message = String.valueOf(keyValue);
 
 			int lineNumber = _cu.getLineNumber(node.getBody().getStartPosition());

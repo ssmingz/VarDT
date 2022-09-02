@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * This class is an interface to run script command background
  * 
- * @author Jiajun
+ * @author
  *
  */
 public class ExecuteCommand {
@@ -29,7 +29,7 @@ public class ExecuteCommand {
 	 * execute given commands
 	 * 
 	 * @param command
-	 *            : command to be executed
+	 *                : command to be executed
 	 * @return output information when running given command
 	 */
 	private static String execute(String... command) {
@@ -40,13 +40,13 @@ public class ExecuteCommand {
 			builder.redirectErrorStream(true);
 			process = builder.start();
 			final InputStream inputStream = process.getInputStream();
-			
-			Thread processReader = new Thread(){
+
+			Thread processReader = new Thread() {
 				public void run() {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 					String line;
 					try {
-						while((line = reader.readLine()) != null) {
+						while ((line = reader.readLine()) != null) {
 							results.add(line + "\n");
 						}
 					} catch (IOException e) {
@@ -59,7 +59,7 @@ public class ExecuteCommand {
 					}
 				}
 			};
-			
+
 			processReader.start();
 			try {
 				processReader.join();
@@ -76,9 +76,9 @@ public class ExecuteCommand {
 			}
 			process = null;
 		}
-		
+
 		String result = "";
-		for(String s: results) {
+		for (String s : results) {
 			result += s;
 		}
 		return result;
@@ -88,11 +88,11 @@ public class ExecuteCommand {
 	 * execute d4j test command
 	 * 
 	 * @param command
-	 *            : commands to be executed
+	 *                : commands to be executed
 	 * @throws IOException
-	 *             : when the file does not exist for d4j output
+	 *                              : when the file does not exist for d4j output
 	 * @throws InterruptedException
-	 *             : when current process is interrupted
+	 *                              : when current process is interrupted
 	 */
 	public static void executeDefects4JTest(String[] command) throws IOException, InterruptedException {
 
@@ -114,13 +114,13 @@ public class ExecuteCommand {
 			builder.redirectErrorStream(true);
 			process = builder.start();
 			final InputStream inputStream = process.getInputStream();
-			
-			Thread processReader = new Thread(){
+
+			Thread processReader = new Thread() {
 				public void run() {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 					String line;
 					try {
-						while((line = reader.readLine()) != null) {
+						while ((line = reader.readLine()) != null) {
 							results.add(line + "\n");
 						}
 					} catch (IOException e) {
@@ -133,7 +133,7 @@ public class ExecuteCommand {
 					}
 				}
 			};
-			
+
 			processReader.start();
 			try {
 				processReader.join();
@@ -150,16 +150,16 @@ public class ExecuteCommand {
 			}
 			process = null;
 		}
-		
+
 		return results;
 	}
-	
+
 	/**
 	 * execute outside command when given command and output execution
 	 * information to console
 	 * 
 	 * @param command
-	 *            : to be executed
+	 *                : to be executed
 	 * @throws IOException
 	 * @throws InterruptedException
 	 */
@@ -170,13 +170,13 @@ public class ExecuteCommand {
 			builder.redirectErrorStream(true);
 			process = builder.start();
 			final InputStream inputStream = process.getInputStream();
-			
-			Thread processReader = new Thread(){
+
+			Thread processReader = new Thread() {
 				public void run() {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 					String line;
 					try {
-						while((line = reader.readLine()) != null) {
+						while ((line = reader.readLine()) != null) {
 							LevelLogger.info(line);
 						}
 					} catch (IOException e) {
@@ -189,7 +189,7 @@ public class ExecuteCommand {
 					}
 				}
 			};
-			
+
 			processReader.start();
 			try {
 				processReader.join();
@@ -211,9 +211,9 @@ public class ExecuteCommand {
 	 * execute given command and output execution information into file
 	 * 
 	 * @param command
-	 *            : command to be executed
+	 *                   : command to be executed
 	 * @param outputFile
-	 *            : output file path
+	 *                   : output file path
 	 * @return
 	 * @throws IOException
 	 * @throws InterruptedException
@@ -228,13 +228,13 @@ public class ExecuteCommand {
 			builder.redirectErrorStream(true);
 			process = builder.start();
 			final InputStream inputStream = process.getInputStream();
-			
-			Thread processReader = new Thread(){
+
+			Thread processReader = new Thread() {
 				public void run() {
 					BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 					String line;
 					try {
-						while((line = reader.readLine()) != null) {
+						while ((line = reader.readLine()) != null) {
 							writer.write(line + "\n");
 							writer.flush();
 							results.add(line + "\n");
@@ -249,7 +249,7 @@ public class ExecuteCommand {
 					}
 				}
 			};
-			
+
 			processReader.start();
 			try {
 				processReader.join();
@@ -267,8 +267,8 @@ public class ExecuteCommand {
 			process = null;
 		}
 	}
-	
-	private static ProcessBuilder getProcessBuilder(String[] command) { 
+
+	private static ProcessBuilder getProcessBuilder(String[] command) {
 		ProcessBuilder builder = new ProcessBuilder(command);
 		Map<String, String> evn = builder.environment();
 		evn.put("JAVA_HOME", Constant.COMMAND_JAVA_HOME);

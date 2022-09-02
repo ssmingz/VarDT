@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -12,7 +12,7 @@ import org.eclipse.jdt.core.dom.Type;
 public class StringValue extends ConstValue {
 
 	private String _value = "";
-	
+
 	public StringValue(String file, int line, int column, String value, Type type) {
 		super(file, line, column, type);
 		_value = value;
@@ -22,6 +22,5 @@ public class StringValue extends ConstValue {
 	public String getValue() {
 		return _value;
 	}
-	
-	
+
 }

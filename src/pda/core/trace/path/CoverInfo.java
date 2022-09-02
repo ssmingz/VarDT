@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -8,7 +8,7 @@
 package pda.core.trace.path;
 
 /**
- * @author Jiajun
+ * @author
  *
  */
 public class CoverInfo {
@@ -28,11 +28,11 @@ public class CoverInfo {
 	public void passedAdd(int count) {
 		_passedCount += count;
 	}
-	
+
 	public void failedObservedAdd(int count) {
 		_failedObservedCount += count;
 	}
-	
+
 	public void passedObservedAdd(int count) {
 		_passedObservedCount += count;
 	}
@@ -44,11 +44,11 @@ public class CoverInfo {
 	public int getPassedCount() {
 		return _passedCount;
 	}
-	
+
 	public int getFailedObservedCount() {
 		return _failedObservedCount;
 	}
-	
+
 	public int getPassedObservedCount() {
 		return _passedObservedCount;
 	}

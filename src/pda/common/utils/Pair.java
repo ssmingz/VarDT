@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -10,7 +10,7 @@ package pda.common.utils;
 /**
  * User defined struct, which saves the information appear together
  * 
- * @author Jiajun
+ * @author
  *
  * @param <A>
  * @param <B>
@@ -43,33 +43,37 @@ public class Pair<A, B> {
 	public B getSecond() {
 		return _second;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
 	public int hashCode() {
 		return _first.hashCode() + _second.hashCode();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
 	public boolean equals(Object obj) {
-		if(obj == null){
+		if (obj == null) {
 			return false;
 		}
-		if(!(obj instanceof Pair<?, ?>)){
+		if (!(obj instanceof Pair<?, ?>)) {
 			return false;
 		}
 		Pair<?, ?> other = (Pair<?, ?>) obj;
-		if(_first==null||_second==null){
+		if (_first == null || _second == null) {
 			return false;
 		}
 		return _first.equals(other.getFirst()) && _second.equals(other.getSecond());
 	}
-	
+
 	@Override
 	public String toString() {
 		return "<" + _first + ", " + _second + ">";

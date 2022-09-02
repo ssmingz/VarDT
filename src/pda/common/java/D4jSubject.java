@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -16,7 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * @author: 
+ * @author:
  * @date: 2021/11/2
  */
 public class D4jSubject extends Subject {
@@ -38,7 +38,7 @@ public class D4jSubject extends Subject {
     private void setPath(String projName, int id) {
         String file = Utils.join(Constant.D4J_SRC_INFO, projName, id + ".txt");
         List<String> paths = JavaFile.readFileToStringList(file);
-        if(paths == null || paths.size() < 4) {
+        if (paths == null || paths.size() < 4) {
             LevelLogger.error(String.format("D4jSubject#setPath : path info error : <{0}>", file));
             return;
         }

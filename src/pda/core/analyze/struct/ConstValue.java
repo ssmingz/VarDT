@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -16,7 +16,6 @@ public abstract class ConstValue {
 	protected int _column;
 	protected Type _type;
 	protected BasicBlock _basicBlock;
-	
 
 	public ConstValue(String file, int line, int column, Type type) {
 		_file = file;
@@ -26,29 +25,29 @@ public abstract class ConstValue {
 	}
 
 	public abstract Object getValue();
-	
+
 	public void setParentBlock(BasicBlock parent) {
 		_basicBlock = parent;
 	}
-	
+
 	public int getLineNumber() {
 		return _line;
 	}
-	
+
 	public Type getType() {
 		return _type;
 	}
-	
+
 	public BasicBlock getParentBlock() {
 		return _basicBlock;
 	}
-	
+
 	public boolean isPrimitive() {
 		return false;
 	}
-	
+
 	public boolean isNumeric() {
 		return false;
 	}
-	
+
 }

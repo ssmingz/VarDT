@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -21,7 +21,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @author Jiajun
+ * @author
  *
  */
 public class Runner {
@@ -38,20 +38,20 @@ public class Runner {
 			long begin = System.currentTimeMillis();
 			ExecuteCommand.executeDefects4JTest(CmdFactory.createTestSuiteCmd(subject));
 			long end = System.currentTimeMillis();
-			LevelLogger.info("Run all test cases cost : " + ((end - begin)/1000) + " sec");
+			LevelLogger.info("Run all test cases cost : " + ((end - begin) / 1000) + " sec");
 		} catch (Exception e) {
 			LevelLogger.fatal(__name__ + "#testSuite run test suite failed !", e);
 		}
 		return checkBuild();
 	}
-	
+
 	public static boolean testSuite(Subject subject, int minTimeout) {
 		try {
 			long begin = System.currentTimeMillis();
 			ExecuteCommand.executeDefects4JTest(CmdFactory.createTestSuiteCmd(subject, minTimeout));
 			long end = System.currentTimeMillis();
-			LevelLogger.info("Run all test cases cost : " + ((end - begin)/1000) + " sec"); 
-			if((end - begin) / 60000 > minTimeout - 1) {
+			LevelLogger.info("Run all test cases cost : " + ((end - begin) / 1000) + " sec");
+			if ((end - begin) / 60000 > minTimeout - 1) {
 				LevelLogger.error("Run test suite time out : " + subject.getName() + "_" + subject.getId());
 			}
 		} catch (Exception e) {
@@ -69,29 +69,29 @@ public class Runner {
 		}
 		return checkBuild();
 	}
-	public static boolean compileSubject(Subject subject, Set<String> illegalConditions){
+
+	public static boolean compileSubject(Subject subject, Set<String> illegalConditions) {
 		List<String> message = null;
 		try {
 			message = ExecuteCommand.executeCompile(CmdFactory.createBuildSubjectCmd(subject));
 		} catch (Exception e) {
 			LevelLogger.fatal(__name__ + "#buildSubject run build subject failed !", e);
 		}
-		
+
 		boolean success = false;
 		Pattern pattern = Pattern.compile("(?<=\\()[\\s\\S]*(?=\\))");
-		for(String string : message){
+		for (String string : message) {
 			Matcher matcher = pattern.matcher(string);
-			if(matcher.find()){
+			if (matcher.find()) {
 				illegalConditions.add(matcher.group(0));
 			}
-			if(string.contains(Constant.ANT_BUILD_SUCCESS)){
+			if (string.contains(Constant.ANT_BUILD_SUCCESS)) {
 				success = true;
 			}
 		}
-		
+
 		return success;
 	}
-	
 
 	public static boolean compileSubject(Subject subject) {
 		List<String> message = null;
@@ -100,15 +100,15 @@ public class Runner {
 		} catch (Exception e) {
 			LevelLogger.fatal(__name__ + "#buildSubject run build subject failed !", e);
 		}
-		
+
 		boolean success = true;
-		for(int i = message.size() - 1; i >= 0; i--){
+		for (int i = message.size() - 1; i >= 0; i--) {
 			if (message.get(i).contains(Constant.ANT_BUILD_FAILED)) {
 				success = false;
 				break;
 			}
 		}
-		
+
 		return success;
 	}
 
@@ -148,35 +148,37 @@ public class Runner {
 
 		return buildSuccess;
 	}
-	
+
 	public static void main(String[] args) {
 		Pattern pattern = Pattern.compile("(?<=\\()[\\s\\S]*(?=\\))");
-		
+
 		List<String> message = new ArrayList<>();
 		message.add("[javac]  if (hK[i] != 0.0) {");
 		message.add("    [javac]     ^");
 		message.add("    [javac]   symbol:   variable hK");
 		message.add("    [javac]   location: class MathArrays");
-		message.add("    [javac] /home/jiajun/d4j/projects/math/math_3_buggy/src/main/java/org/apache/commons/math3/util/MathArrays.java:627: error: non-static variable this cannot be referenced from a static context");
+		message.add(
+				"    [javac] /home//d4j/projects/math/math_3_buggy/src/main/java/org/apache/commons/math3/util/MathArrays.java:627: error: non-static variable this cannot be referenced from a static context");
 		message.add("    [javac] if (this.lindep[i], compile, this.lindep[i]) {");
 		message.add("    [javac]         ^");
 		message.add("    [javac]   symbol: variable lindep");
-		message.add("    [javac] /home/jiajun/d4j/projects/math/math_3_buggy/src/main/java/org/apache/commons/math3/util/MathArrays.java:630: error: cannot find symbol");
+		message.add(
+				"    [javac] /home//d4j/projects/math/math_3_buggy/src/main/java/org/apache/commons/math3/util/MathArrays.java:630: error: cannot find symbol");
 		message.add("    [javac] if (taken[i]) {");
 		message.add("		    [javac]     ^");
 		message.add("    [javac]   symbol:   variable taken");
 		message.add("    [javac]   location: class MathArrays");
-		message.add("    [javac] /home/jiajun/d4j/projects/math/math_3_buggy/src/main/java/org/apache/commons/math3/util/MathArrays.java:642: error: incomparable types: double[] and double");
+		message.add(
+				"    [javac] /home//d4j/projects/math/math_3_buggy/src/main/java/org/apache/commons/math3/util/MathArrays.java:642: error: incomparable types: double[] and double");
 		message.add("    [javac] if (a != 0.0]");
-		
-		for(String string : message){
+
+		for (String string : message) {
 			Matcher matcher = pattern.matcher(string);
-			if(matcher.find()){
+			if (matcher.find()) {
 				System.out.println(matcher.group(0));
 			}
 		}
-		
-		
+
 	}
-	
+
 }

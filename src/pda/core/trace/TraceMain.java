@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -21,7 +21,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
- * @author: 
+ * @author:
  * @date: 2021/11/12
  */
 public class TraceMain {
@@ -67,10 +67,10 @@ public class TraceMain {
             if (id.length == 2) {
                 int start = Integer.parseInt(id[0]);
                 int end = Integer.parseInt(id[1]);
-                for (; start <= end; start ++) {
+                for (; start <= end; start++) {
                     subjects.add(new D4jSubject(base, name, start));
                 }
-            } else if(id.length == 1) {
+            } else if (id.length == 1) {
                 subjects.add(new D4jSubject(base, name, Integer.parseInt(id[0])));
             } else {
                 LevelLogger.error("Skip unknown format : " + s);
@@ -107,7 +107,8 @@ public class TraceMain {
     }
 
     private static boolean proceed(Subject subject) {
-        LevelLogger.info("------------------ Begin : " + subject.getName() + "_" + subject.getId() + " ----------------");
+        LevelLogger
+                .info("------------------ Begin : " + subject.getName() + "_" + subject.getId() + " ----------------");
 
         // remove auxiliary file
         String path = Utils.join(subject.getHome(), subject.getSsrc());
@@ -131,14 +132,14 @@ public class TraceMain {
 
         Date startTime = new Date();
         boolean recover = false;
-        if(!Constant.BOOL_RECOMPUTE_ORI) {
+        if (!Constant.BOOL_RECOMPUTE_ORI) {
             Set<Integer> allCoveredMethods = new HashSet<>();
             Set<Integer> failedTests = new HashSet<>();
             recover = Utils.recoverFailedTestsAndCoveredMethod(subject, failedTests, allCoveredMethods);
             failedTestsAndCoveredMethods = new Pair<>(failedTests, allCoveredMethods);
         }
 
-        if(!recover) {
+        if (!recover) {
             LevelLogger.info("Start to collect failed test and covered methods...");
             failedTestsAndCoveredMethods = Collector.collectFailedTestAndCoveredMethod(subject);
             LevelLogger.info("Finish to collect failed test and covered methods.");

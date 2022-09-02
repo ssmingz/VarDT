@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -16,12 +16,12 @@ import java.util.*;
 
 /**
  * 
- * @author Jiajun
+ * @author
  *
  */
 public class BasicBlock {
 
-	public enum BLOCKTYPE{
+	public enum BLOCKTYPE {
 		FILE,
 		TYPE,
 		METHOD,
@@ -39,13 +39,13 @@ public class BasicBlock {
 		CASE,
 		UNKNOWN
 	}
-	
+
 	private final static boolean _record_global_variable = false;
 	private static Set<Variable> _globalVariables = new HashSet<>();
 	// private static Map<String, Use> _unresolvedUse = new HashMap<>();
 
 	public static void addGlobalVariables(Variable variable) {
-//		_globalVariables.add(variable);
+		// _globalVariables.add(variable);
 	}
 
 	public static Set<Variable> getGlobalVariables() {
@@ -65,7 +65,8 @@ public class BasicBlock {
 	private String _blockName = "Unknown";
 	private Pair<Integer, Integer> _codeRange = new Pair<Integer, Integer>(0, 0);
 
-	public BasicBlock(String file, String pkage, String clazz, CompilationUnit unit, int minLineNumber, int maxLineNumber, BasicBlock parent)
+	public BasicBlock(String file, String pkage, String clazz, CompilationUnit unit, int minLineNumber,
+			int maxLineNumber, BasicBlock parent)
 			throws IllegalArgumentException {
 		setCodeRange(minLineNumber, maxLineNumber);
 		_file = file;
@@ -91,7 +92,7 @@ public class BasicBlock {
 		_codeRange.setFirst(minLineNumber);
 		_codeRange.setSecond(maxLineNumber);
 	}
-	
+
 	public void setBlockType(BLOCKTYPE type, String blockName) {
 		_blockType = type;
 		_blockName = blockName;
@@ -103,7 +104,7 @@ public class BasicBlock {
 		variable.setClazz(_publicClazz);
 		variable.setPackage(_package);
 	}
-	
+
 	public void addConstant(ConstValue constValue) {
 		_constants.add(constValue);
 		constValue.setParentBlock(this);
@@ -118,7 +119,7 @@ public class BasicBlock {
 		}
 
 		if (variable == null) {
-			if(_record_global_variable) {
+			if (_record_global_variable) {
 				LevelLogger.warn("@BasicBlock Cannot find defined variable with name : " + varName);
 			}
 		} else {
@@ -170,7 +171,7 @@ public class BasicBlock {
 	public BasicBlock getParent() {
 		return _parent;
 	}
-	
+
 	public CompilationUnit getCompilationUnit() {
 		return _unit;
 	}
@@ -178,11 +179,11 @@ public class BasicBlock {
 	public int getBlockLevel() {
 		return _level;
 	}
-	
+
 	public BLOCKTYPE getBlockType() {
 		return _blockType;
 	}
-	
+
 	public String getBlockName() {
 		return _blockName;
 	}
@@ -194,7 +195,7 @@ public class BasicBlock {
 	public Set<BasicBlock> getChildrenBlock() {
 		return _children;
 	}
-	
+
 	public Set<ConstValue> getConstants() {
 		return _constants;
 	}
@@ -253,22 +254,22 @@ public class BasicBlock {
 		variables.addAll(getGlobalVariables());
 		return Collections.unmodifiableSet(variables);
 	}
-	
+
 	public Set<Variable> recursivelyGetVariables() {
 		Set<Variable> variables = new HashSet<>();
 		variables.addAll(_variables);
-		for(BasicBlock basicBlock : getChildrenBlock()) {
+		for (BasicBlock basicBlock : getChildrenBlock()) {
 			variables.addAll(basicBlock.recursivelyGetVariables());
 		}
 		return Collections.unmodifiableSet(variables);
 	}
-	
+
 	public Set<ConstValue> getAllConstValueUsedUp2Now() {
 		Set<ConstValue> constValues = new HashSet<>();
 		constValues.addAll(_constants);
 		BasicBlock parent = this.getParent();
-		while(parent != null) {
-			if(parent.getBlockType() == BLOCKTYPE.METHOD) {
+		while (parent != null) {
+			if (parent.getBlockType() == BLOCKTYPE.METHOD) {
 				break;
 			}
 			constValues.addAll(parent.getConstants());
@@ -276,18 +277,18 @@ public class BasicBlock {
 		}
 		return constValues;
 	}
-	
+
 	public Set<Use> recursivelyGetUses() {
 		Set<Use> uses = new HashSet<>();
-		for(Variable variable : _variables) {
+		for (Variable variable : _variables) {
 			uses.addAll(variable.getUseSet());
 		}
-		for(BasicBlock basicBlock : getChildrenBlock()) {
+		for (BasicBlock basicBlock : getChildrenBlock()) {
 			uses.addAll(basicBlock.recursivelyGetUses());
 		}
 		return Collections.unmodifiableSet(uses);
 	}
-	
+
 	public Set<Use> getVariableUses(int line) {
 		BasicBlock basicBlock = getMinimalBasicBlock(line);
 		Set<Use> uses = new HashSet<>();

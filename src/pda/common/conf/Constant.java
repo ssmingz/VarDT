@@ -1,5 +1,5 @@
 /**
- * Copyright (C) CIC, TJU, PRC. - All Rights Reserved.
+ * Copyright (C) . - All Rights Reserved.
  * Unauthorized copying of this file via any medium is
  * strictly prohibited Proprietary and Confidential.
  * Written by .
@@ -16,12 +16,12 @@ import java.io.*;
 import java.util.Properties;
 
 /**
- * @author: 
+ * @author:
  * @date: 2021/11/2
  */
 public class Constant {
 
-    /*  basic path configurations */
+    /* basic path configurations */
     public final static String HOME = System.getProperty("user.dir");
 
     /**
@@ -45,7 +45,7 @@ public class Constant {
 
     // used for instrument
     public final static String INSTRUMENT_DOT_SEPARATOR = ".";
-    public final static String INSTRUMENT_FLAG = "";//"[INST]"
+    public final static String INSTRUMENT_FLAG = "";// "[INST]"
     public final static String INSTRUMENT_K_TEST = "T";
     public final static String INSTRUMENT_K_SOURCE = "M";
 
@@ -157,7 +157,8 @@ public class Constant {
             Constant.COMMAND_JAVA = Utils.join(COMMAND_JAVA_HOME, "bin", "java ");
 
             Constant.COMMAND_CD = prop.getProperty("COMMAND.CD").replace("/", Constant.DIR_SEPARATOR) + " ";
-            Constant.COMMAND_TIMEOUT = prop.getProperty("COMMAND.TIMEOUT").replaceAll("/", Constant.DIR_SEPARATOR) + " ";
+            Constant.COMMAND_TIMEOUT = prop.getProperty("COMMAND.TIMEOUT").replaceAll("/", Constant.DIR_SEPARATOR)
+                    + " ";
             Constant.COMMAND_D4J = prop.getProperty("COMMAND.D4J").replace("/", Constant.DIR_SEPARATOR) + " ";
             in.close();
         } catch (IOException e) {
