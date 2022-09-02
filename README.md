@@ -4,40 +4,116 @@ This is the codebase of the bug detector VARDT.
 
 ## Usage
 
+You can run VARDT through the docker image [Docker link](https://hub.docker.com/repository/docker/anonymous0901/vardt) directly. All environments needed have been set up in the docker. Here is an example. Results are generated to `/home/results/`.
+
+```shell
+$> bash
+$> cd /home
+$> python3 script.py Lang 28
+```
+
 ### Configuration
 
-Change the following configurations according to your system.
+- Java 1.8
+- Python 3.6
+- Git 2.17.1
+- Maven 3.3.9
+- Ant 1.9.16
 
-* `/src/fl/utils/Constant.java` 
-  * D4J_HOME
-  * ALL_TESTS_AFTER_TP : folder contains all_tests_name after test purification
-  * FAIL_TESTS : folder contains failed_tests_name after test purification
+### Repository content
 
-* `/src/pda/core/dependency/Config.java`
-  * graphPath : output path for generated PDG
+* `script.py` is the script for running the pipeline.
+* `code/` contains the source code and some scripts used to get the intermediate results.
+* `docs/` contains the experiment results and some statistic figures and tables.
+* `groundtruth/` is the groudtruth we collected to check the results.
+* `tracing/` is the root base for collecting the trace.
+* `purification/` is the root base for test purification.
+* Other folders are used for intermediate results.
 
-* `/resources/conf/system.properties`
+### Example
 
-### Running
+Each project folder will be checkout to `d4jsrc/`.
 
-To run the purification,
+```shell
+$> cd /home/d4jsrc/lang/lang_28_buggy
+```
 
-    $> unzip /data/purification.zip
-    $> cd /data/purification
-    $> java -jar SimFix-1.0-SNAPSHOT-runnable.jar -home ${bugsrc_base} -proj ${pro} -id ${i}
+Then test purification is executed, after which both original and purified test files will be saved to the corresponding path. `all_tests_afterPurified/` and `failed_tests_afterTP/` list test name after purification, which are required to instrumentation.
 
-Before the instrumentation, `ALL_TESTS_AFTER_TP/` and `FAIL_TESTS/` need to be prepared.
+Next, a tracing job is applied. Tracing results are saved to `tracing/info/`.
 
-To run the instrumentation,
+```shell
+$> ls /home/tracing/info/lang/lang_28
+coveredMethods.txt  failedTest.txt  identifier.txt  original_test.log  trace.out
+```
 
-    $> java fl.Runner ${project_path} ${project_id} ${bug_id} ${slice_path} PDAtrace ${TOP_N}
+`identifier.txt` contains the mapping between id and identifier.
 
-To run the slicing,
+    0       org.apache.commons.lang3.text.translate.NumericEntityUnescaperTest#void#testSupplementaryUnescaping#?
+    1       org.apache.commons.lang3.BooleanUtils#?#BooleanUtils#?
+    ...
 
-    $> java pda.core.slice.SlicerMain ${project_path} ${project_id} ${bug_id} ${trace_path} ${trace_line_path} ${output_path}
+`coveredMethods.txt` lists the id of all covered methods.
 
-To run the tree generation,
+`failedTest.txt` lists the id of all failing tests.
 
-    $> java fl.weka.IntraGenTree ${collect_values_dir} ${output_path} ${project_id} ${bug_id} ${project_path} ${trace_path} ${linescore_base}
+`trace.out` lists the id#line_number for each failing test.
+
+    ---------0---------
+    224#54
+    ...
+
+Slicing results are saved to `topN_traceLineNo_afterSlicing/lang/lang_28/traceLineByTopN.txt`, in a format like MethodID:MethodLongName:LineNumberList. '?' is used as a spaceholder.
+
+    1.0:org.apache.commons.lang3.text.translate.NumericEntityUnescaper#int#translate#?,CharSequence,int,Writer:?,35,37,38,39,41,42,47,48,49,52,54,57,63,64
+
+Each top-10 method are instrumented and retested. Values collected are saved to `collected_values/lang/lang_28/`.
+
+    testStandaloneAmphersand
+    input{PRED}.isNULL-35/25:false
+    input{PRED}.TYPE-35/25:java.lang.String
+    input{PRED}.length-35/25:11
+    ...
+    PASS
+    ...
+
+Each top-10 method will build its trees separately. Trees generated are saved to `results/`. The first level is matched to the instrumented method id.
+
+```shell
+$> ls /home/results/gen_trees/gen_trees-cp_dd0.8_rp_slicing/lang/lang_28
+0 1 2
+$> ls 0
+attrMap  tree  values.csv
+```
+
+For each method, 
+
+`attrMap` contains mapping betwwen tree attributes and variable names.
+
+    A2:input{PRED}.isNULL-35/25
+    A3:input{PRED}.TYPE-35/25
+    A4:input{PRED}.length-35/25
+    ...
+
+`tree` contains the generated tree for several rounds. Variables are reranked in the 'Reorder:' part, in which the first number is its suspicious score in this single method.
+
+    Round1
+    A88 < 34401 : PASS (8/0)
+    A88 >= 34401 : FAIL (1/0)
+    ...
+    Reorder:
+    A88 entityValue-{57/20;63/26} 3.8 0.8 3.04
+    ...
+
+Running `/home/code/orderVars.py` to considering all top-10 methods, final score of all variables will be saved to `ordered_vars3.txt`. The first number is its final suspicous score for all top-10 method.
+
+```shell
+$> python3 /home/code/orderVars.py lang 28
+$> vim /home/results/gen_trees/gen_trees-cp_dd0.8_rp_slicing/lang/lang_28/ordered_vars3.txt
+```
+
+    0#entityValue-{57/20;63/26} 1.5673384185480062 3.8 0.8 0.6422285251880866 0.46545182989144973
+    0#(isHex)-54/19/5 1.5037173932377093 3.6457513110645907 1.0 0.6422285251880866 0.5386751345948129
+    ...
 
 
