@@ -1,6 +1,6 @@
 # VARDT : An Automated Fault Localization Tool
 
-This is the codebase of the bug detector VARDT.
+This is the codebase of the bug detector VARDT. Please feel free to contact us, if you have any questions.
 
 ## Usage
 
