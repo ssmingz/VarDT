@@ -12,6 +12,18 @@ $> cd /home
 $> python3 script.py Lang 28
 ```
 
+Setting following configurations is required before executing `mvn package` if you'd like to run it in a local environment
+* Change Defects4J settings `$DEBUG=0 => $DEBUG=1 in DEFECTS4J_HOME/framework/core/Constant.pm`
+* Run 'defects4j checkout ...' command to get project folder path `PROJECT_ROOT/PROJECT_FOLDER`
+* Package purification folder and run it using options '-home $PROJECT_ROOT -pro $PRO -id $VERSION'
+* Change $D4J_HOME, $ALL_TESTS_AFTER_TP, $FAIL_TESTS in `src/fl/utils/Constant.java`
+* Change the configurations in `/resources/conf/system.properties` according to your system
+* Package tracing module `src/pda/core/trace/` and run it using options 'trace -dir $PROJECT_ROOT -name $PRO -id $VERSION'
+* Package slicing module `src/pda/core/slice/` and run it using options '$PRO $VERSION'
+* Package instrumentation module `src/fl/` and run it using options '-dir $PROJECT_FOLDER -name $PRO -id $VERSION -slice $SLICE_PATH -mode PDAtrace -range 10'
+* Package tree module `src/fl/weka/` and run it using options '$PRO $VERSION 0.8'
+
+
 ### Repository content
 
 * `src/` contains the source code.
