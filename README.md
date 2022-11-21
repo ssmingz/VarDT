@@ -12,18 +12,6 @@ $> cd /home
 $> python3 script.py Lang 28
 ```
 
-Setting following configurations is required before executing `mvn package` if you'd like to run it in a local environment
-* Change Defects4J settings `$DEBUG=0 => $DEBUG=1 in DEFECTS4J_HOME/framework/core/Constant.pm`
-* Run 'defects4j checkout ...' command to get project folder path `PROJECT_ROOT/PROJECT_FOLDER`
-* Package purification folder and run it using options '-home $PROJECT_ROOT -pro $PRO -id $VERSION'
-* Change $D4J_HOME, $ALL_TESTS_AFTER_TP, $FAIL_TESTS in `src/fl/utils/Constant.java`
-* Change the configurations in `/resources/conf/system.properties` according to your system
-* Package tracing module `src/pda/core/trace/` and run it using options 'trace -dir $PROJECT_ROOT -name $PRO -id $VERSION'
-* Package slicing module `src/pda/core/slice/` and run it using options '$PRO $VERSION'
-* Package instrumentation module `src/fl/` and run it using options '-dir $PROJECT_FOLDER -name $PRO -id $VERSION -slice $SLICE_PATH -mode PDAtrace -range 10'
-* Package tree module `src/fl/weka/` and run it using options '$PRO $VERSION 0.8'
-
-
 ### Repository content
 
 * `src/` contains the source code.
@@ -35,6 +23,52 @@ In `data/`,
 * `results/` contains the experiment results of generated trees.
 * `statistics/` contains some statistic figures and tables.
 * Other zip files are some intermediate results.
+
+### Configure
+
+Setting following configurations is required before executing `mvn package` if you'd like to run it in a local environment.
+* Change Defects4J settings.
+
+`$DEBUG=0 => $DEBUG=1 in DEFECTS4J_HOME/framework/core/Constant.pm`
+
+* Run 'defects4j checkout ...' command to get project folder path `PROJECT_ROOT/PROJECT_FOLDER`.
+
+* Package purification folder in `data/purification.tar.gz` and run it using options '-home $PROJECT_ROOT -pro $PRO -id $VERSION'.
+
+* Unzip files in `data/` and change `src/fl/utils/Constant.java` according to your local path.
+```java
+D4J_HOME = 
+ALL_TESTS_AFTER_TP = 
+FAIL_TESTS = 
+```
+
+* Change the configurations in `/resources/conf/system.properties` according to your system.
+```txt
+COMMAND.TIMEOUT =
+COMMAND.JAVA_HOME =
+COMMAND.D4J =
+```
+
+
+* Package tracing module `src/pda/core/trace/` and run it using options 'trace -dir $PROJECT_ROOT -name $PRO -id $VERSION'.
+```shell
+$> timeout 15m java -jar PDA-1.0-SNAPSHOT-runnable.jar trace -dir /home/d4jsrc -name {pro} -id {version}
+```
+
+* Package slicing module `src/pda/core/slice/` and run it using options '$PRO $VERSION'.
+```shell
+$> java -jar fl-slicer.jar {pro} {version}
+```
+
+* Package instrumentation module `src/fl/` and run it using options '-dir $PROJECT_FOLDER -name $PRO -id $VERSION -slice $SLICE_PATH -mode PDAtrace -range 10'.
+```shell
+$> java -jar fl-runner.jar -dir /home/d4jsrc/{pro}/{pro}_{version}_buggy -name {pro} -id {version} -slice /home/topN_traceLineNo_noOrder/{pro}/{pro}_{version}/traceLineByTopN.txt -mode PDAtrace -range 10
+```
+
+* Package tree module `src/fl/weka/` and run it using options '$PRO $VERSION 0.8'.
+```shell
+$> java -jar fl-gentree.jar {pro} {version} 0.8
+```
 
 ### Example
 
